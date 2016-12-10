@@ -1,6 +1,0 @@
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:29:28 +0800] "GET /jq/users2.jsp HTTP/1.1" 200 1471 http-bio-8080-exec-1 1883
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:29:29 +0800] "GET /users.json HTTP/1.1" 200 160 http-bio-8080-exec-2 125
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:29:32 +0800] "GET /users.json HTTP/1.1" 200 160 http-bio-8080-exec-3 4
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:29:33 +0800] "GET /jq/users2.jsp HTTP/1.1" 200 1471 http-bio-8080-exec-4 5
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:32:10 +0800] "GET /users.json HTTP/1.1" 200 160 http-bio-8080-exec-8 3
-0:0:0:0:0:0:0:1 - - [07/Dec/2016:11:32:11 +0800] "GET /jq/users2.jsp HTTP/1.1" 200 1471 http-bio-8080-exec-9 4

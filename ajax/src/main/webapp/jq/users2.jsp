@@ -40,7 +40,7 @@
 
                       for(var i = 0;i < json.length;i++){
                           var user = json[i];
-                          var jsp = "<tr><td>"+user.id+"</td><td>"+user.username+"</td><td>"+user.address+"</td></tr>";
+                          var jsp= "<tr><td>"+user.id+"</td><td>"+user.username+"</td><td>"+user.address+"</td></tr>";
                           $(jsp).appendTo($tbody);
                       }
 

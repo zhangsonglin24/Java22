@@ -15,9 +15,29 @@
 <span id="loding" style="display: none"><img src="/static/img/loding.gif" alt=""></span>
 <span id="text"></span>
 
-<script src="/static/js/jquery-1.11.3.min.js"></script>
+
+<script src="/static/js/ajax.js"></script>
 <script>
-    $(function () {
+    (function () {
+        document.querySelector("#username").onblur = function () {
+          var name = document.querySelector("#username").value;
+           ajax.sendPost({
+               url : "/ajax",
+               data : "name="+name+"&age=23",
+               success : function (data) {
+                   alert(data);
+               },
+               error : function () {
+                   alert("服务器异常");
+               }
+
+           });
+        };
+    })();
+
+
+
+   /* $(function () {
       $("#username").blur(function () {
          var name = $(this).val();
 
@@ -25,7 +45,7 @@
               $("#text").text(data);
           }).error(function () {
              alert("服务器异常")
-          });
+          });*/
 /*
           $.ajax({
               url : "/ajax",
@@ -44,9 +64,9 @@
               complete : function () {
                   $("#loding").hide();
               }
-          });*/
+          });
       });
-    });
+    });*/
 </script>
 
 </body>

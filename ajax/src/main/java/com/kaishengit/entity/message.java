@@ -1,8 +1,8 @@
 package com.kaishengit.entity;
 
-public class message {
+public class Message {
 
-    private Integer id;
+   private Integer id;
     private String message;
 
     public Integer getId() {

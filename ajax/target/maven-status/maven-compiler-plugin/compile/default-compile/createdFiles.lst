@@ -1,4 +1,5 @@
 com\kaishengit\service\MessageService.class
+com\kaishengit\web\QiniuCallbackServlet.class
 com\kaishengit\web\UploadServlet.class
 com\kaishengit\web\JsonDataServlet.class
 com\kaishengit\util\HttpUtil.class
@@ -14,6 +15,7 @@ com\kaishengit\web\UserServlet2.class
 com\kaishengit\exception\DataAccessException.class
 com\kaishengit\web\BaseServlet.class
 com\kaishengit\web\AjaxServlet.class
+com\kaishengit\web\QiniuServlet.class
 com\kaishengit\web\MailServlet.class
 com\kaishengit\web\DictServlet.class
 com\kaishengit\web\UserServlet.class

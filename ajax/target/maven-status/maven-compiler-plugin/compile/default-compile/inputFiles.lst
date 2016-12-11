@@ -7,6 +7,8 @@ E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\BaseServlet.java
 E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\UploadServlet.java
 E:\workspace\app\Java22\ajax\src\main\java\Test.java
 E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\util\ConnectionManager.java
+E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\QiniuServlet.java
+E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\QiniuCallbackServlet.java
 E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\util\HttpUtil.java
 E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\MailServlet.java
 E:\workspace\app\Java22\ajax\src\main\java\com\kaishengit\web\AjaxServlet.java

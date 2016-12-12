@@ -11,11 +11,11 @@
     <title>Title</title>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container">
-    <form id="loginForm" class="animated bounce">
+    <form id="loginForm">
         <div class="form-group">
             <label>账号</label>
             <input type="text" class="form-control" name="username" id="username">

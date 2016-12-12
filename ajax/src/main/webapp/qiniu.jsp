@@ -14,7 +14,7 @@
     <button>上传</button>
 </form>
 <c:if test="${not empty fileName}">
-    <img src="http://ohwnpkfcx.bkt.clouddn.com/${fileName}" alt="">
+    <img src="http://oi0mgf04v.bkt.clouddn.com/${fileName}" alt="">
 </c:if>
 </body>
 </html>

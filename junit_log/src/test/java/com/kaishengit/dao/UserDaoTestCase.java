@@ -1,13 +1,19 @@
 package com.kaishengit.dao;
 
 import com.kaishengit.entity.User;
-import org.junit.Assert;
+import static org.junit.Assert.*;//静态导入
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 public class UserDaoTestCase {
-    UserDao userDao = new UserDao();
+   private UserDao userDao;
+
+    @Before
+    public void before(){
+        userDao = new UserDao();
+    }
 
     @Test
     public void testSave(){
@@ -24,13 +30,13 @@ public class UserDaoTestCase {
     @Test
     public void testFindById(){
         User user = userDao.findById(6);
-        Assert.assertNotNull(user);
+       assertNotNull(user);
 
     }
     @Test
     public void testFindAll(){
         List<User> userList = userDao.findAll();
-        Assert.assertEquals(8,userList.size());
+        assertEquals(8,userList.size());
     }
     @Test
     public void testDel() {

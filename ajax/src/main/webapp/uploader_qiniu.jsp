@@ -19,7 +19,9 @@
 <script src="/static/js/jquery-1.11.3.min.js"></script>
 <script src="/static/js/webuploader/webuploader.min.js"></script>
 <script>
-    $(function () {
+
+
+   $(function () {
         var upload = WebUploader.create({
             swf:"/static/js/webuploader/Uploader.swf",
             server:"http://up-z1.qiniu.com/",

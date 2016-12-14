@@ -7,6 +7,7 @@
           <element id="module-output" name="junit_log" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.google.guava:guava:20.0" />
           <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.8" />

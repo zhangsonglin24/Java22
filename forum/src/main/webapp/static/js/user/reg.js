@@ -71,8 +71,7 @@ $(function () {
                 },
                 success:function(data){
                     if(data.state == 'success') {
-                        alert("注册成功，请登录");
-                        window.location.href = "/login";
+                        alert("注册成功，请进邮箱激活账户");
                     } else {
                         alert(data.message);
                     }

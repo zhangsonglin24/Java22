@@ -2,11 +2,16 @@ package com.kaishengit.service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.kaishengit.dao.LoginLogDao;
 import com.kaishengit.dao.UserDao;
+import com.kaishengit.entity.LoginLog;
 import com.kaishengit.entity.User;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +19,10 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class UserService {
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private UserDao userDao = new UserDao();
+    private LoginLogDao loginLogDao = new LoginLogDao();
 
 
     //发送激活邮件的TOKEN缓存
@@ -56,7 +63,6 @@ public class UserService {
 
         userDao.save(user);
 
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -76,4 +82,57 @@ public class UserService {
 
     }
 
+    /**
+     * 根据token激活对应的用户
+     * @param token
+     */
+
+    public void activeUser(String token) {
+        String userName = cache.getIfPresent(token);
+        if(userName == null){
+            throw new ServiceException("token无效或已过期");
+        }else{
+            User user = userDao.findByUserName(userName);
+            if(user == null){
+                throw new ServiceException("无法找到对应的账号");
+            }else{
+                user.setState(User.USERSTATE_ACTIVE);
+                userDao.update(user);
+
+                //将缓存中的键值对删除
+                cache.invalidate(token);
+            }
+        }
+
+    }
+
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @param ip
+     */
+    public User login(String username, String password, String ip) {
+        User user = userDao.findByUserName(username);
+        if(username != null && DigestUtils.md5Hex(Config.get("user.password.salt") + password).equals(user.getPassword())){
+            if(user.getState().equals(User.USERSTATE_ACTIVE)){
+
+                //记录登录日志
+               LoginLog log = new LoginLog();
+                log.setIp(ip);
+                log.setUserId(user.getId());
+
+                loginLogDao.save(log);
+                logger.info("{}登录了系统，IP：{}",username,ip);
+                return user;
+
+            }else if(user.getState().equals(User.USERSTATE_UNACTIVE)){
+                throw new ServiceException("该账号未激活");
+            }else{
+                throw new ServiceException("该账号已被禁用");
+            }
+        }else{
+            throw new ServiceException("账号或密码错误");
+        }
+    }
 }

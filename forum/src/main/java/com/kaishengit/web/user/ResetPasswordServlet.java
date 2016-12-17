@@ -4,45 +4,58 @@ import com.google.common.collect.Maps;
 import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.UserService;
+import com.kaishengit.util.StringUtils;
 import com.kaishengit.web.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/login")
-public class LoginServlet extends BaseServlet {
+@WebServlet("/resetpassword")
+public class ResetPasswordServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forward("user/login",req,resp);
+        String token = req.getParameter("token");
+        if(StringUtils.isEmpty(token)){
+            resp.sendError(404);
+        }else{
+            //由缓存中token对应的username找到对应的user
+            UserService userService = new UserService();
+            try {
+                User user = userService.findUserBytoken(token);
+
+                req.setAttribute("user",user);
+                req.setAttribute("token",token);
+                forward("user/resetpassword",req,resp);
+            }catch (ServiceException ex){
+                req.setAttribute("message",ex.getMessage());
+                forward("user/reset_error",req,resp);
+
+            }
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
+        String id = req.getParameter("id");
+        String token = req.getParameter("token");
         String password = req.getParameter("password");
-
-        //获取客户IP地址
-        String ip = req.getRemoteAddr();
 
         Map<String,Object> result = Maps.newHashMap();
 
         UserService userService = new UserService();
         try {
-           User user = userService.login(username, password, ip);
-            //将登录成功的用户放入Session
-            HttpSession session = req.getSession();
-            session.setAttribute("curr_user",user);
-
+            userService.resetPassword(id, token, password);
             result.put("state","success");
         }catch (ServiceException ex){
             result.put("state","error");
             result.put("message",ex.getMessage());
+
         }
+
         renderJSON(result,resp);
     }
 }

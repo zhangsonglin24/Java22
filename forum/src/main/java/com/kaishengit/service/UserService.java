@@ -9,6 +9,7 @@ import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
+import com.kaishengit.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,17 @@ public class UserService {
     private LoginLogDao loginLogDao = new LoginLogDao();
 
 
-    //发送激活邮件的TOKEN缓存
+    //发送激活邮件的token缓存
     private static Cache<String,String> cache = CacheBuilder.newBuilder()
             .expireAfterWrite(6, TimeUnit.HOURS)
+            .build();
+    //限制操作频率的缓存
+    private static Cache<String,Object> activeCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(60,TimeUnit.SECONDS)
+            .build();
+    //发送找回密码邮件的token缓存
+    private static Cache<String,Object> passwordCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(30,TimeUnit.MINUTES)
             .build();
 
     /**
@@ -66,19 +75,18 @@ public class UserService {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                //给用户发送激活邮件
-                String uuid = UUID.randomUUID().toString();
-                String url = "http://localhost/user/active?_="+uuid;
-                //放入缓存等待6个小时
-                cache.put(uuid,username);
+                //发送激活邮件
+                String token = UUID.randomUUID().toString();
+                String url = "http://www.zsl.com/user/active?token="+token;
+                //放入缓存  并带个值username
+                cache.put(token,username);
+                String html = "<h2>尊敬的"+username+":</h2>请点击<a href='"+url+"'>此链接</a>激活账户!!!! <br> 论坛";
+                EmailUtil.sendHtmlEmail(email,"新用户激活邮件",html);
 
-                String html ="<h3>尊敬的 "+username+":</h3>请点击<a href='"+url+"'>该链接</a>去激活你的账号. <br> 凯盛软件";
-
-                EmailUtil.sendHtmlEmail(email,"用户激活邮件",html);
             }
         });
-        thread.start();
 
+        thread.start();
 
     }
 
@@ -134,5 +142,79 @@ public class UserService {
         }else{
             throw new ServiceException("账号或密码错误");
         }
+    }
+
+    /**
+     * 用户找回密码
+     * @param type
+     * @param value
+     */
+
+    public void foundPassword(String sessionId,String type, String value) {
+        if(activeCache.getIfPresent(sessionId) == null){
+            if("phone".equals(type)){
+                //TODO根据手机号码找回
+            }else if("email".equals(type)){
+                User user = userDao.findByEmail(value);
+                if(user != null){
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String token = UUID.randomUUID().toString();
+                            String url = "http://www.zsl.com/resetpassword?token=" + token;
+                            passwordCache.put(token,user.getUsername());
+
+                            String html = user.getUsername()+"<h2>请点击<a href='"+url+"'>该链接</a>进行找回密码操作，链接在30分钟内有效</h2>";
+                            EmailUtil.sendHtmlEmail(value,"找回密码邮件",html);
+                        }
+                    });
+                    thread.start();
+                }
+            }
+
+
+            activeCache.put(sessionId,"---");
+        }else{
+            throw new ServiceException("操作频率过快");
+        }
+    }
+
+    /**
+     * 根据token获取找回密码的用户
+     * @param token
+     * @return
+     */
+    public User findUserBytoken(String token) {
+        String username = (String) passwordCache.getIfPresent(token);
+        if(StringUtils.isEmpty(username)){
+            throw new ServiceException("token过期或错误");
+        }else{
+            User user = userDao.findByUserName(username);
+            if(username == null){
+                throw new ServiceException("未找到对应账号");
+            }else{
+                return user;
+            }
+        }
+
+    }
+
+    /**
+     * 重置密码
+     * @param id
+     * @param token
+     * @param password
+     */
+
+    public void resetPassword(String id, String token, String password) {
+        if(passwordCache.getIfPresent(token) == null){
+            throw new ServiceException("token过期或错误");
+        }else{
+            User user = userDao.findById(Integer.valueOf(id));
+            user.setPassword(DigestUtils.md5Hex(Config.get("user.password.salt") + password));
+            userDao.update(user);
+            logger.info("{} 重置了密码",user.getUsername());
+        }
+
     }
 }

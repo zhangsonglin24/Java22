@@ -16,7 +16,7 @@ public class ActiveUserServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String token = req.getParameter("_");
+        String token = req.getParameter("token");
         if(StringUtils.isEmpty(token)){
             resp.sendError(404);
         }else{

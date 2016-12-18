@@ -1,4 +1,4 @@
-	package com.kaishengit.web.filter;
+package com.kaishengit.web.filter;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -10,8 +10,7 @@ public abstract class AbstractFilter implements Filter {
     }
 
     @Override
-    public abstract void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException;
-
+    public abstract void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException ;
 
     @Override
     public void destroy() {

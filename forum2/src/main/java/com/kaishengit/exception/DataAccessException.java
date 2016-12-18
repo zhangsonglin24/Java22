@@ -2,7 +2,7 @@ package com.kaishengit.exception;
 
 /**
  * 数据访问异常
- * 
+ *
  */
 public class DataAccessException extends RuntimeException {
 

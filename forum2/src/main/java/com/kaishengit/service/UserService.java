@@ -223,4 +223,27 @@ public class UserService {
 
 
     }
+
+    /**
+     * 更改电子邮件
+     * @param user
+     * @param email
+     */
+
+    public void updateSetEmail(User user, String email) {
+        user.setEmail(email);
+        userDao.update(user);
+    }
+
+    public void updatePassword(User user, String newPassword, String oldPassword) {
+        String salt = Config.get("user.password.salt");
+        if(DigestUtils.md5Hex(salt + oldPassword).equals(user.getPassword())){
+            newPassword = DigestUtils.md5Hex(salt + newPassword);
+            user.setPassword(newPassword);
+            userDao.update(user);
+        }else{
+            throw new ServiceException("原始密码错误");
+        }
+
+    }
 }

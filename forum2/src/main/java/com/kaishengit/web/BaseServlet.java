@@ -1,6 +1,7 @@
 package com.kaishengit.web;
 
 import com.google.gson.Gson;
+import com.kaishengit.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,5 +30,14 @@ public class BaseServlet extends HttpServlet {
         writer.print(new Gson().toJson(obj));
         writer.flush();
         writer.close();
+    }
+
+    public User getCurrentUser(HttpServletRequest req){
+        User user = (User) req.getSession().getAttribute("curr_user");
+        if(user == null){
+            return null;
+        }else {
+            return user;
+        }
     }
 }

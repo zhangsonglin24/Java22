@@ -22,7 +22,7 @@
                 <c:when test="${not empty sessionScope.curr_user}">
                     <li>
                         <a href="/setting">
-                            <img src="http://oi0mgf04v.bkt.clouddn.com/FloSbYG-1qpWp1eQjDZofgB2wsTC?imageView2/1/w/20/h/20" class="img-circle" alt="">
+                            <img id="navbar_avatar" src="http://oi0mgf04v.bkt.clouddn.com/FloSbYG-1qpWp1eQjDZofgB2wsTC?imageView2/1/w/20/h/20" class="img-circle" alt="">
                         </a>
                     </li>
                     <li>

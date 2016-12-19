@@ -91,7 +91,12 @@ $(function () {
                     $("#passwordBtn").text("保存中...").attr("disabled","disabled");
                 },
                 success:function (data) {
-
+                    if(data.state == "success"){
+                        alert("密码修改成功，请重新登录");
+                        window.location.href = "/login";
+                    }else{
+                        alert(data.message);
+                    }
                 },
                 error:function () {
                     alert("服务器错误");

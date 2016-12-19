@@ -2,6 +2,7 @@ package com.kaishengit.web.user;
 
 import com.kaishengit.entity.User;
 import com.kaishengit.service.UserService;
+import com.kaishengit.util.StringUtils;
 import com.kaishengit.web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,18 @@ public class ValidateEmailServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String type = req.getParameter("type");
         String email = req.getParameter("email");
+
+        if(StringUtils.isNotEmpty(type) && "1".equals(type)){
+            User currUser = getCurrentUser(req);
+            if(currUser != null){
+                if(currUser.getEmail().equals(email)){
+                    renderText("true",resp);
+                    return;
+                }
+            }
+        }
 
         UserService userService = new UserService();
         User user = userService.findByEmail(email);

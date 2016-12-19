@@ -213,8 +213,40 @@ public class UserService {
             User user = userDao.findById(Integer.valueOf(id));
             user.setPassword(DigestUtils.md5Hex(Config.get("user.password.salt") + password));
             userDao.update(user);
+
+            //删除token
+            passwordCache.invalidate(token);
+
             logger.info("{} 重置了密码",user.getUsername());
         }
 
+    }
+
+    /**
+     * 修改电子邮件
+     * @param user
+     * @param email
+     */
+
+    public void updateEmail(User user, String email) {
+        user.setEmail(email);
+        userDao.update(user);
+    }
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @param oldpassword
+     * @param newpassword
+     */
+    public void updatePassword(User user, String oldpassword, String newpassword) {
+        String salt = Config.get("user.password.salt");
+        if(DigestUtils.md5Hex(salt + oldpassword).equals(user.getPassword())){
+            newpassword = DigestUtils.md5Hex(salt + newpassword);
+            user.setPassword(newpassword);
+            userDao.update(user);
+        }else{
+            throw new ServiceException("原始密码错误");
+        }
     }
 }

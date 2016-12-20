@@ -116,7 +116,7 @@
 <script>
     $(function () {
         //头像上传
-        var uploader =WebUploader.create({
+        var uploader = WebUploader.create({
             swf : "/static/js/uploader/Uploader.swf",
             server: "http://up-z1.qiniu.com/",
             pick:"#picker",

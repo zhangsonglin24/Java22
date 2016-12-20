@@ -113,6 +113,44 @@
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/uploader/webuploader.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script>
+    $(function () {
+       //上传新头像
+        var uploader = WebUploader.create({
+            awf:"/static/js/uploader/Uploader.swf",
+            server:"http://up-z1.qiniu.com/",
+            pick:"#picker",
+            auto:true,
+            fileVal:"file",
+            formData:{"token":"${token}"},
+            accept:{
+                title:'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes:'image/!*'
+            }
+        });
+        //上传成功
+        uploader.on("uploadSuccess",function (file,data) {
+                var fileKey = data.key;
+            //修改数据库中的头像地址
+            $.post("/setting?action=avatar",{"fileKey":fileKey})
+                    .done(function (data) {
+                        if(data.state == "success"){
+                            var url = "http://oi0mgf04v.bkt.clouddn.com/"+fileKey;
+                            $("#avatar").attr("src",url+"?imageView2/1/w/40/h/40");
+                            $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20");
+                        }
+                    })
+                    .error(function () {
+                       alert("头像设置失败");
+                    });
+        });
+        //上传失败
+        uploader.on("uploadError",function () {
+           alert("上传失败，请稍后再试");
+        });
 
+    });
+</script>
 </body>
 </html>

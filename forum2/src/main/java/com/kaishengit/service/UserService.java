@@ -246,4 +246,15 @@ public class UserService {
         }
 
     }
+
+    /**
+     * 设置头像
+     * @param user
+     * @param fileKey
+     */
+
+    public void updateAvatar(User user, String fileKey) {
+        user.setAvatar(fileKey);
+        userDao.update(user);
+    }
 }

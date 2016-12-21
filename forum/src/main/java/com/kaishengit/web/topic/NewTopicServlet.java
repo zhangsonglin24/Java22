@@ -5,7 +5,10 @@ import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.entity.User;
 import com.kaishengit.service.TopicService;
+import com.kaishengit.util.Config;
 import com.kaishengit.web.BaseServlet;
+import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,9 +24,19 @@ public class NewTopicServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Auth auth = Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
+
+        StringMap stringMap = new StringMap();
+        stringMap.put("returnBody","{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}");
+
+        String token = auth.uploadToken(Config.get("qiniu.bucketName"),null,3600,stringMap);
+
+
+
         //获取所有节点nodeList,传到前端页面newTopic.jsp
         List<Node> nodeList = service.findAllNode();
-        req.setAttribute("nodeLise",nodeList);
+
+        req.setAttribute("nodeList",nodeList);
         forward("topic/newTopic",req,resp);
     }
 
@@ -36,7 +49,8 @@ public class NewTopicServlet extends BaseServlet {
 
         Topic topic = service.addNewTopic(title,content,Integer.valueOf(nodeid),user.getId());
 
-        JsonResult result = new JsonResult(topic);
+       JsonResult result = new JsonResult(topic);
+
         renderJSON(result,resp);
 
 

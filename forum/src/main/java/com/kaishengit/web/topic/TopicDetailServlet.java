@@ -1,6 +1,5 @@
 package com.kaishengit.web.topic;
 
-import com.kaishengit.dto.JsonResult;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
@@ -16,12 +15,12 @@ import java.io.IOException;
 public class TopicDetailServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String topicId = req.getParameter("topicId");
+        String topicid = req.getParameter("topicid");
         TopicService service = new TopicService();
         try {
-            Topic topic = service.findTopicById(topicId);
+            Topic topic = service.findTopicById(topicid);
             req.setAttribute("topic", topic);
-            forward("/topic/topicDetail", req, resp);
+            forward("topic/topicDetail", req, resp);
         }catch (ServiceException ex){
             resp.sendError(404);
         }

@@ -2,9 +2,11 @@ package com.kaishengit.service;
 
 
 import com.kaishengit.dao.NodeDao;
+import com.kaishengit.dao.ReplyDao;
 import com.kaishengit.dao.TopicDao;
 import com.kaishengit.dao.UserDao;
 import com.kaishengit.entity.Node;
+import com.kaishengit.entity.Reply;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
@@ -18,6 +20,7 @@ public class TopicService {
     NodeDao nodeDao = new NodeDao();
     TopicDao topicDao = new TopicDao();
     UserDao userDao = new UserDao();
+    ReplyDao replyDao = new ReplyDao();
 
     public List<Node> findAllNode(){
         return nodeDao.findAllNodes();
@@ -39,9 +42,9 @@ public class TopicService {
     }
 
     public Topic findTopicById(String topicId) {
-        if(StringUtils.isNumeric(topicId)){
+        if (StringUtils.isNumeric(topicId)){
             Topic topic = topicDao.findTopicById(topicId);
-            if(topic != null){
+            if(topic != null ){
                 //通过topic对象的userid、nodeid 获取user和node对象,并set到topic对象中;
                 User user = userDao.findById(topic.getUserid());
                 Node node = nodeDao.findNodeById(topic.getNodeid());
@@ -55,5 +58,14 @@ public class TopicService {
         }else{
             throw  new ServiceException("参数错误");
         }
+    }
+
+    public void addTopicReply(String content, String topicid, User user) {
+        Reply reply = new Reply();
+        reply.setContent(content);
+        reply.setUserid(user.getId());
+        reply.setTopicid(Integer.valueOf(topicid));
+
+        replyDao.addReply(reply);
     }
 }

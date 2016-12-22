@@ -4,6 +4,7 @@ import com.kaishengit.dto.JsonResult;
 import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.entity.User;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
 import com.kaishengit.util.Config;
 import com.kaishengit.web.BaseServlet;
@@ -24,13 +25,14 @@ public class NewTopicServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //用七牛上传图片所需的token(自定义七牛返回的类型returnBody)
         Auth auth = Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
 
         StringMap stringMap = new StringMap();
         stringMap.put("returnBody","{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}");
-
         String token = auth.uploadToken(Config.get("qiniu.bucketName"),null,3600,stringMap);
 
+        req.setAttribute("token",token);
 
 
         //获取所有节点nodeList,传到前端页面newTopic.jsp
@@ -46,12 +48,15 @@ public class NewTopicServlet extends BaseServlet {
         String content = req.getParameter("content");
         String nodeid =req.getParameter("nodeid");
         User user = getCurrentUser(req);
-
-        Topic topic = service.addNewTopic(title,content,Integer.valueOf(nodeid),user.getId());
-
-       JsonResult result = new JsonResult(topic);
-
-        renderJSON(result,resp);
+        Topic topic = null;
+        JsonResult jsonResult = null;
+        try {
+            topic = service.addNewTopic(title, content, Integer.valueOf(nodeid), user.getId());
+            jsonResult = new JsonResult(topic);
+        }catch (ServiceException e){
+            jsonResult = new JsonResult(e.getMessage());
+        }
+        renderJSON(jsonResult,resp);
 
 
     }

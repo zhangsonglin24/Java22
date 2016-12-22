@@ -12,7 +12,9 @@ import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.StringUtils;
+import org.joda.time.DateTime;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TopicService {
@@ -33,17 +35,27 @@ public class TopicService {
         topic.setContent(content);
         topic.setNodeid(nodeid);
         topic.setUserid(userId);
+        //暂时设置最后回复时间为当前时间
+        topic.setLastreplytime(new Timestamp(new DateTime().getMillis()));
 
         Integer topicId = topicDao.save(topic);
-
         topic.setId(topicId);
+        //更新Node表中的topicnum
+        Node node = nodeDao.findNodeById(nodeid);
+        if (node != null){
+            node.setTopicnum(node.getTopicnum() + 1);
+            nodeDao.update(node);
+        } else{
+            throw new ServiceException("节点不存在");
+        }
+
         return topic;
 
     }
 
-    public Topic findTopicById(String topicId) {
-        if (StringUtils.isNumeric(topicId)){
-            Topic topic = topicDao.findTopicById(topicId);
+    public Topic findTopicById(String topicid) {
+        if (StringUtils.isNumeric(topicid)){
+            Topic topic = topicDao.findTopicById(topicid);
             if(topic != null ){
                 //通过topic对象的userid、nodeid 获取user和node对象,并set到topic对象中;
                 User user = userDao.findById(topic.getUserid());
@@ -51,6 +63,8 @@ public class TopicService {
                 user.setAvatar(Config.get("qiniu.domain")+user.getAvatar());
                 topic.setUser(user);
                 topic.setNode(node);
+                topic.setClicknum(topic.getClicknum() + 1);
+                topicDao.update(topic);
                 return topic;
             }else{
                 throw new ServiceException("该帖不存在或已被删除");
@@ -58,14 +72,30 @@ public class TopicService {
         }else{
             throw  new ServiceException("参数错误");
         }
+
     }
 
     public void addTopicReply(String content, String topicid, User user) {
+        //添加新回复到t_reply表
         Reply reply = new Reply();
         reply.setContent(content);
         reply.setUserid(user.getId());
         reply.setTopicid(Integer.valueOf(topicid));
 
         replyDao.addReply(reply);
+
+        //更新t_topic表中的replynum 和 lastreplytime字段
+        Topic topic = topicDao.findTopicById(topicid);
+        if (topic != null){
+            topic.setReplynum(topic.getReplynum() + 1);
+            topic.setLastreplytime(new Timestamp(DateTime.now().getMillis()));
+            topicDao.update(topic);
+        }else{
+            throw new ServiceException("回复的主题不存在或被删除");
+        }
+    }
+
+    public List<Reply> findReplyListByTopicid(String topicid) {
+        return replyDao.findReplyListByTopicid(topicid);
     }
 }

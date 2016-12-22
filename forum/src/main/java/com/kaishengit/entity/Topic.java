@@ -11,7 +11,7 @@ public class Topic {
     private Timestamp createtime;
     private Integer clicknum;
     private Integer favnum;
-    private Integer thankyounum;
+    private Integer thanksnum;
     private Integer replynum;
     private Timestamp lastreplytime;
     private Integer userid;
@@ -68,12 +68,12 @@ public class Topic {
         this.favnum = favnum;
     }
 
-    public Integer getThankyounum() {
-        return thankyounum;
+    public Integer getThanksnum() {
+        return thanksnum;
     }
 
-    public void setThankyounum(Integer thankyounum) {
-        this.thankyounum = thankyounum;
+    public void setThanksnum(Integer thanksnum) {
+        this.thanksnum = thanksnum;
     }
 
     public Integer getReplynum() {

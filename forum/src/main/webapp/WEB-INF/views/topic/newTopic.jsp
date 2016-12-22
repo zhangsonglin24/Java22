@@ -63,7 +63,8 @@
     $(function(){
         var editor = new Simditor({
             textarea: $('#editor'),
-            //optional options
+
+            //optional 可选的
             toolbar: ['title','bold','italic','underline','strikethrough',
                 'fontScale','color','ol' ,'ul', 'blockquote','code',
                 'table', 'image','emoji'],
@@ -75,6 +76,8 @@
                 params:{"token":"${token}"},
                 fileKey:'file'
             },
+
+
 
         });
         $("#sendBtn").click(function () {

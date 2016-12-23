@@ -122,8 +122,8 @@
 <script src="/static/js/editer/scripts/uploader.min.js"></script>
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
 <script src="/static/js/highlight.pack.js"></script>
-<script src="//cdn.bootcss.com/moment.js/2.10.6/moment.min.js"></script>
-<script src="//cdn.bootcss.com/moment.js/2.10.6/locale/zh-cn.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/moment.js"></script>
 <script>
     $(function(){
         var editor = new Simditor({
@@ -139,6 +139,23 @@
         $("#replyBtn").click(function () {
             $("#replyForm").submit();
         });
+
+       /* $("#replyForm").validate({
+            errorElement:"span",
+            errorClass:"text-error",
+            rules:{
+                content:{
+                    required:true
+                }
+            },
+            messages:{
+                content:{
+                    required:"回复不能为空"
+                }
+            }
+        });
+*/
+        moment.locale("zh-cn");
 
         $("#topicTime").text(moment($("#topicTime").text()).fromNow());
         $("#lastreplytime").text(moment($("#lastreplytime").text()).format("YYYY年MM月DD日 hh:mm:ss"));

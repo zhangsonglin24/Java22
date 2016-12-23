@@ -48,15 +48,14 @@ public class NewTopicServlet extends BaseServlet {
         String content = req.getParameter("content");
         String nodeid =req.getParameter("nodeid");
         User user = getCurrentUser(req);
-        Topic topic = null;
-        JsonResult jsonResult = null;
+        JsonResult result = null;
         try {
-            topic = service.addNewTopic(title, content, Integer.valueOf(nodeid), user.getId());
-            jsonResult = new JsonResult(topic);
+            Topic topic = service.addNewTopic(title, content, Integer.valueOf(nodeid), user.getId());
+            result = new JsonResult(topic);
         }catch (ServiceException e){
-            jsonResult = new JsonResult(e.getMessage());
+           result = new JsonResult(e.getMessage());
         }
-        renderJSON(jsonResult,resp);
+        renderJSON(result,resp);
 
 
     }

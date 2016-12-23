@@ -45,18 +45,26 @@ $(function(){
                 },
                 success:function(data){
                     if(data.state == 'success') {
-                        alert("登录成功");
-                       var url = getParameterByName("redirect");
-                        if(url) {
-                            var hash = location.hash;
-                            if (hash){
-                                window.location.href = url + hash;
-                            }else{
-                                window.location.href = url;
-                        }
-                        }else{
-                            window.location.href = "/home";
-                        }
+                        swal({title: "登录成功", text: "点击进入论坛", type: "info",
+                            showCancelButton: false,
+                            closeOnConfirm: true,
+                            showLoaderOnConfirm: true,
+                            },
+                            function(){
+                                var url = getParameterByName("redirect");
+                                if(url) {
+                                    var hash = location.hash;
+                                    if (hash){
+                                        window.location.href = url + hash;
+                                    }else{
+                                        window.location.href = url;
+                                    }
+                                }else{
+                                    window.location.href = "/home";
+                                }
+
+                            });
+
                     } else {
                         alert(data.message);
                     }

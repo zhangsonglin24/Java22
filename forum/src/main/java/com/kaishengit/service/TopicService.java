@@ -40,11 +40,12 @@ public class TopicService {
 
         Integer topicId = topicDao.save(topic);
         topic.setId(topicId);
-        //更新Node表中的topicnum
+
+       //更新Node表中的topicnum
         Node node = nodeDao.findNodeById(nodeid);
         if (node != null){
-            node.setTopicnum(node.getTopicnum() + 1);
-            nodeDao.update(node);
+        node.setTopicnum(node.getTopicnum() + 1);
+        nodeDao.update(node);
         } else{
             throw new ServiceException("节点不存在");
         }
@@ -77,12 +78,17 @@ public class TopicService {
 
     public void addTopicReply(String content, String topicid, User user) {
         //添加新回复到t_reply表
-        Reply reply = new Reply();
-        reply.setContent(content);
-        reply.setUserid(user.getId());
-        reply.setTopicid(Integer.valueOf(topicid));
+        if(StringUtils.isNumeric(topicid)){
+            Reply reply = new Reply();
+            reply.setContent(content);
+            reply.setUserid(user.getId());
+            reply.setTopicid(Integer.valueOf(topicid));
 
-        replyDao.addReply(reply);
+            replyDao.addReply(reply);
+        }else{
+            throw new ServiceException("数据异常或错误");
+        }
+
 
         //更新t_topic表中的replynum 和 lastreplytime字段
         Topic topic = topicDao.findTopicById(topicid);

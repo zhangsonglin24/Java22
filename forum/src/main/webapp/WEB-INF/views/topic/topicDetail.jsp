@@ -17,7 +17,7 @@
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/js/editer/styles/simditor.css">
-    <link rel="stylesheet" href="/static/css/styles/solarized-light.css">
+    <link rel="stylesheet" href="/static/css/styles/solarized-dark.css">
     <style>
         body{
             background-image: url(/static/img/bg.jpg);
@@ -52,11 +52,15 @@
         <div class="topic-body">
             ${requestScope.topic.content} </div>
         <div class="topic-toolbar">
+         <c:if test="${not empty sessionScope.curr_user}">
             <ul class="unstyled inline pull-left">
-                <li><a href="">加入收藏</a></li>
-                <li><a href="">感谢</a></li>
-                <li><a href=""></a></li>
+                <li><a href="javascript:;">加入收藏</a></li>
+                <li><a href="javascript:;">感谢</a></li>
+                <c:if test="${sessionScope.curr_user.id == topic.userid and topic.edit}">
+                <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
+                </c:if>
             </ul>
+         </c:if>
             <ul class="unstyled inline pull-right muted">
                 <li>${topic.clicknum}次点击</li>
                 <li>${topic.favnum}人收藏</li>
@@ -65,7 +69,7 @@
         </div>
     </div>
     <!--box end-->
-
+    <c:if test="${not empty replyList}">
     <div class="box" style="margin-top:20px;">
         <div class="talk-item muted" style="font-size: 12px">
             ${fn:length(replyList)}个回复 | 直到<span id="lastreplytime">${topic.lastreplytime}</span>
@@ -92,6 +96,7 @@
         </div>
         </c:forEach>
     </div>
+    </c:if>
     <c:choose>
         <c:when test="${not empty sessionScope.curr_user}">
     <div class="box" style="margin:20px 0px;">
@@ -126,13 +131,19 @@
 <script src="/static/js/moment.js"></script>
 <script>
     $(function(){
+        <c:if test="${not empty sessionScope.curr_user}">
         var editor = new Simditor({
             textarea: $('#editor'),
             toolbar:false
             //optional options
-
-
         });
+        $(".replyLink").click(function(){
+            var count = $(this).attr("rel");
+            var html = "<a href='#reply"+count+"'>"+ count +"楼</a>";
+            editor.setValue(html + editor.getValue());
+            window.location.href="#reply";
+        });
+        </c:if>
 
         hljs.initHighlightingOnLoad();
 
@@ -163,12 +174,7 @@
             var time = $(this).text();
             return moment(time).fromNow();
         });
-        $(".replyLink").click(function(){
-            var count = $(this).attr("rel");
-            var html = "<a href='#reply"+count+"'>"+ count +"楼</a>";
-            editor.setValue(html + editor.getValue());
-            window.location.href="#reply";
-        });
+
 
     });
 </script>

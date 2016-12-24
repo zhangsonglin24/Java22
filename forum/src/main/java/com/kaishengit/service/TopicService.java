@@ -104,4 +104,16 @@ public class TopicService {
     public List<Reply> findReplyListByTopicid(String topicid) {
         return replyDao.findReplyListByTopicid(topicid);
     }
+
+    public void updateTopicById(String title, String content, String nodeid, String topicid) {
+        Topic topic = topicDao.findTopicById(topicid);
+        if(topic.isEdit()){
+            topic.setTitle(title);
+            topic.setContent(content);
+            topic.setNodeid(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+        }else{
+            throw new ServiceException("该帖子已经不可编辑");
+        }
+    }
 }

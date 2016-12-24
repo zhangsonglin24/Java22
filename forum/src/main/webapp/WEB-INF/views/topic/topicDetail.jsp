@@ -54,7 +54,14 @@
         <div class="topic-toolbar">
          <c:if test="${not empty sessionScope.curr_user}">
             <ul class="unstyled inline pull-left">
-                <li><a href="javascript:;">加入收藏</a></li>
+                <c:choose>
+                    <c:when test="${not empty fav}">
+                <li><a href="javascript:;" id="favtopic">取消收藏</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="javascript:;" id="favtopic">加入收藏</a></li>
+                    </c:otherwise>
+                </c:choose>
                 <li><a href="javascript:;">感谢</a></li>
                 <c:if test="${sessionScope.curr_user.id == topic.userid and topic.edit}">
                 <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
@@ -63,7 +70,7 @@
          </c:if>
             <ul class="unstyled inline pull-right muted">
                 <li>${topic.clicknum}次点击</li>
-                <li>${topic.favnum}人收藏</li>
+                <li><span id="favnum">${topic.favnum}</span>人收藏</li>
                 <li>${topic.thanksnum}人感谢</li>
             </ul>
         </div>
@@ -145,11 +152,38 @@
         });
         </c:if>
 
-        hljs.initHighlightingOnLoad();
+
 
         $("#replyBtn").click(function () {
             $("#replyForm").submit();
         });
+
+
+        $("#favtopic").click(function () {
+            var $this = $(this);
+            var action = "";
+            if($this.text() == "加入收藏"){
+                action = "fav";
+            }else{
+                action = "unfav";
+            }
+
+            $.post("/topicFav",{"topicid":${topic.id},"action":action}).done(function (json) {
+                if(json.state == "success"){
+                    if(action == "fav"){
+                        $this.text("取消收藏");
+                    }else{
+                        $this.text("加入收藏");
+                    }
+                    $("#favnum").text(json.data);
+                }
+
+            }).error(function () {
+                alert("收藏失败");
+            });
+
+        });
+
 
        /* $("#replyForm").validate({
             errorElement:"span",
@@ -175,6 +209,7 @@
             return moment(time).fromNow();
         });
 
+        hljs.initHighlightingOnLoad();
 
     });
 </script>

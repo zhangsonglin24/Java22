@@ -1,14 +1,17 @@
 package com.kaishengit.service;
 
 
+import com.google.common.collect.Maps;
 import com.kaishengit.dao.*;
 import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
+import com.kaishengit.util.Page;
 import com.kaishengit.util.StringUtils;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 public class TopicService {
@@ -139,5 +142,25 @@ public class TopicService {
 
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
+    }
+
+    public Page<Topic> findAllTopics(String nodeid, Integer pageNo) {
+        HashMap<String,Object> map = Maps.newHashMap();
+
+        int count = 0;
+        if (StringUtils.isEmpty(nodeid)){
+            count = topicDao.count();
+        }else{
+            count = topicDao.count(nodeid);
+        }
+
+        Page<Topic> topicPage = new Page<>(count,pageNo);
+        map.put("nodeid",nodeid);
+        map.put("start",topicPage.getStart());
+        map.put("pageSize",topicPage.getPageSize());
+
+        List<Topic> topicList = topicDao.findAll(map);
+        topicPage.setItems(topicList);
+        return topicPage;
     }
 }

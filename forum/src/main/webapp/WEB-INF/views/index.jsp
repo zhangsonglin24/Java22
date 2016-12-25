@@ -15,10 +15,10 @@
     <div class="box">
         <div class="talk-item">
             <ul class="topic-type unstyled inline" style="margin-bottom:0px;">
-                <li class="active"><a href="">全部</a></li>
-                <li><a href="">问与答</a></li>
-                <li><a href="">分享</a></li>
-                <li><a href="">Java</a></li>
+                <li class="${empty param.nodeid?'active':''}"><a href="/home">全部</a></li>
+                <c:forEach items="${nodeList}" var="node">
+                    <li class="${node.id == param.nodeid?'active':''}"><a href="/home?nodeid=${node.id}">${node.nodename}</a></li>
+                </c:forEach>
             </ul>
         </div>
         <div class="talk-item">

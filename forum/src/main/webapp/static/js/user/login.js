@@ -12,6 +12,12 @@ $(function(){
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    $("#password").keydown(function () {
+        if (event.keyCode == "13") {
+            $("#loginBtn").click();
+        }
+    });
+
     $("#loginBtn").click(function(){
         $("#loginForm").submit();
     });

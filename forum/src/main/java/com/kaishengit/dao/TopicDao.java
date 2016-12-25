@@ -8,8 +8,8 @@ public class TopicDao {
 
 
     public Integer save(Topic topic) {
-        String sql = "insert into t_topic (title,content,nodeid,userid) values(?,?,?,?)";
-        return DbHelp.insert(sql,topic.getTitle(),topic.getContent(),topic.getNodeid(),topic.getUserid());
+        String sql = "insert into t_topic (title,content,nodeid,userid,lastreplytime) values(?,?,?,?,?)";
+        return DbHelp.insert(sql,topic.getTitle(),topic.getContent(),topic.getNodeid(),topic.getUserid(),topic.getLastreplytime());
     }
 
     public Topic findTopicById(String topicid) {

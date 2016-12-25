@@ -4,8 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LoginFilter extends AbstractFilter {
     private List<String> urlList = null;
@@ -25,6 +24,30 @@ public class LoginFilter extends AbstractFilter {
 
         if(urlList != null && urlList.contains(requestUrl)){
             if(request.getSession().getAttribute("curr_user") == null){
+                //requestURL后如果有参数要获得
+                Map map = request.getParameterMap();
+                Set paramSet = map.entrySet();
+
+                Iterator iterator = paramSet.iterator();
+                if(iterator.hasNext()){
+                    requestUrl += "?";
+
+                    //当参数不止一个时
+                    while (iterator.hasNext()){
+                        Map.Entry entry = (Map.Entry) iterator.next();
+                        Object key = entry.getKey();
+                        Object value = entry.getValue();
+                        String valueString[] = (String[]) value;
+
+                        String param = "";
+                        for (int i = 0;i < valueString.length;i++){
+                            param = key + "=" + valueString[i] + "&";
+                            requestUrl += param;
+                        }
+                    }
+                    requestUrl = requestUrl.substring(0,requestUrl.length() - 1);
+                }
+
                 //去登录页
                 response.sendRedirect("/login?redirect="+requestUrl);
             }else {

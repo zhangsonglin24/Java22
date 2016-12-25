@@ -14,7 +14,7 @@
 <body>
 <div class="header-bar">
     <div class="container">
-        <a href="#" class="brand">
+        <a href="/home" class="brand">
             <i class="fa fa-reddit-alien"></i>
         </a>
         <ul class="unstyled inline pull-right">

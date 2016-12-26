@@ -3,8 +3,10 @@ package com.kaishengit.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.kaishengit.dao.LoginLogDao;
+import com.kaishengit.dao.NotifyDao;
 import com.kaishengit.dao.UserDao;
 import com.kaishengit.entity.LoginLog;
+import com.kaishengit.entity.Notify;
 import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
@@ -24,6 +26,7 @@ public class UserService {
 
     private UserDao userDao = new UserDao();
     private LoginLogDao loginLogDao = new LoginLogDao();
+    private NotifyDao notifyDao = new NotifyDao();
 
 
     //发送激活邮件的token缓存
@@ -261,5 +264,18 @@ public class UserService {
     public void updateAvatar(User user, String fileKey) {
         user.setAvatar(fileKey);
         userDao.update(user);
+    }
+
+    /**
+     * 查找所有的回复通知
+     * @param user
+     * @return
+     */
+    public List<Notify> findNotifyByUser(User user) {
+        return notifyDao.findNotifyByUserId(user.getId());
+    }
+
+    public void updateNotifyStateByIds(String ids) {
+
     }
 }

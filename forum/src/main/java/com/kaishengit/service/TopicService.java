@@ -21,6 +21,7 @@ public class TopicService {
     private UserDao userDao = new UserDao();
     private ReplyDao replyDao = new ReplyDao();
     private FavDao favDao = new FavDao();
+    private NotifyDao notifyDao = new NotifyDao();
 
     public List<Node> findAllNode() {
         return nodeDao.findAllNodes();
@@ -96,6 +97,16 @@ public class TopicService {
         } else {
             throw new ServiceException("回复的主题不存在或被删除");
         }
+
+        //新添加回复的通知
+        if(!user.getId().equals(topic.getUserid())){
+            Notify notify = new Notify();
+            notify.setUserid(topic.getUserid());
+            notify.setContent("您的主题 <a href=\"/topicDetail?topicid="+topic.getId()+"\">["+ topic.getTitle()+"]</a> 有了新的回复,请查看!");
+            notify.setState(Notify.NOTIFY_UNREAD);
+            notifyDao.save(notify);
+        }
+
     }
 
     public List<Reply> findReplyListByTopicid(String topicid) {
@@ -147,6 +158,7 @@ public class TopicService {
     public Page<Topic> findAllTopics(String nodeid, Integer pageNo) {
         HashMap<String,Object> map = Maps.newHashMap();
 
+        //查询总topic数count
         int count = 0;
         if (StringUtils.isEmpty(nodeid)){
             count = topicDao.count();

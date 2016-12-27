@@ -44,7 +44,7 @@ public class NotifyServlet extends BaseServlet{
         }));
         JsonResult jsonResult = new JsonResult();
         jsonResult.setState("success");
-        jsonResult.setData(unreadList.size());
+        jsonResult.setData(unreadList.size() );
 
         renderJSON(jsonResult,resp);
     }

@@ -62,7 +62,15 @@
                         <li><a href="javascript:;" id="favtopic">加入收藏</a></li>
                     </c:otherwise>
                 </c:choose>
-                <li><a href="javascript:;">感谢</a></li>
+                <c:choose>
+                    <c:when test="${not empty thanks}">
+                        <li><a href="javascript:;" id="thanks">取消感谢</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="javascript:;" id="thanks">感谢</a></li>
+                    </c:otherwise>
+                </c:choose>
+
                 <c:if test="${sessionScope.curr_user.id == topic.userid and topic.edit}">
                 <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
                 </c:if>
@@ -71,7 +79,7 @@
             <ul class="unstyled inline pull-right muted">
                 <li>${topic.clicknum}次点击</li>
                 <li><span id="favnum">${topic.favnum}</span>人收藏</li>
-                <li>${topic.thanksnum}人感谢</li>
+                <li><span id="thanksnum">${topic.thanksnum}</span>人感谢</li>
             </ul>
         </div>
     </div>
@@ -121,7 +129,7 @@
         </c:when>
         <c:otherwise>
             <div class="box" style="margin:20px 0px;">
-          <div class="talk-item muted" style="font-size: 20px"></i>请<a href="/login?redirect=topicDetail?topicid=${topic.id}#reply">登录</a>后再回复</div>
+          <div class="talk-item muted" style="font-size: 20px"></i>请<span style="background-color: #0000ee"><a href="/login?redirect=topicDetail?topicid=${topic.id}#reply">登录</a></span>后再回复</div>
           </div>
         </c:otherwise>
     </c:choose>   
@@ -182,6 +190,28 @@
                 alert("收藏失败");
             });
 
+        });
+
+        $("#thanks").click(function () {
+            var $this = $(this);
+            if($this.text() == "感谢"){
+                action = "thanks";
+            }else{
+                action = "unthanks";
+            }
+
+            $.post("/topicThanks",{"topicid":${topic.id},"action":action}).done(function (json) {
+                if(json.state == "success"){
+                    if(action == "thanks"){
+                        $this.text("取消感谢");
+                    }else{
+                        $this.text("感谢");
+                    }
+                    $("#thanksnum").text(json.data);
+                }
+            }).error(function () {
+                alert("感谢失败");
+            });
         });
 
 

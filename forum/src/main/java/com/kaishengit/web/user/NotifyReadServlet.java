@@ -16,5 +16,7 @@ public class NotifyReadServlet extends BaseServlet {
         String ids = req.getParameter("ids");
         UserService userService = new UserService();
         userService.updateNotifyStateByIds(ids);
+
+        renderText("success",resp);
     }
 }

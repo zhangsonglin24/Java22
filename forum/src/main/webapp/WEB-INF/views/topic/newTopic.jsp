@@ -59,6 +59,7 @@
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/simditor-emoji.js"></script>
+<script src="/static/js/user/notify.js"></script>
 <script>
     $(function(){
         var editor = new Simditor({

@@ -113,6 +113,7 @@
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/uploader/webuploader.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script src="/static/js/user/notify.js"></script>
 <script>
     $(function () {
         //头像上传

@@ -13,9 +13,11 @@ import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
 import com.kaishengit.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -276,6 +278,12 @@ public class UserService {
     }
 
     public void updateNotifyStateByIds(String ids) {
-
+        String idArray[] = ids.split(",");
+        for(int i = 0;i<idArray.length;i++){
+            Notify notify = notifyDao.findById(idArray[i]);
+            notify.setState(Notify.NOTIFY_READ);
+            notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
+            notifyDao.update(notify);
+        }
     }
 }

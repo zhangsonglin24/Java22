@@ -1,9 +1,6 @@
 package com.kaishengit.web.topic;
 
-import com.kaishengit.entity.Fav;
-import com.kaishengit.entity.Reply;
-import com.kaishengit.entity.Topic;
-import com.kaishengit.entity.User;
+import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
 import com.kaishengit.util.StringUtils;
@@ -40,6 +37,10 @@ public class TopicDetailServlet extends BaseServlet {
                 Fav fav = service.findFavByUseridAndTopicid(user,topicid);
                 req.setAttribute("fav",fav);
             }
+
+            //判断用户是否感谢过该主题
+            Thanks thanks = service.findThanksByUseridAndTopicid(user,topicid);
+            req.setAttribute("thanks",thanks);
 
             forward("topic/topicDetail", req, resp);
         }catch (ServiceException ex){

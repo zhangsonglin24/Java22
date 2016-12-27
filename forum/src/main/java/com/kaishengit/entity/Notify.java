@@ -1,6 +1,7 @@
 package com.kaishengit.entity;
 
-import java.security.Timestamp;
+
+import java.sql.Timestamp;
 
 public class Notify {
 

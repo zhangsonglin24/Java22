@@ -39,14 +39,14 @@
                         
                         <c:choose>
                             <c:when test="${notify.state == 1}">
-                                <tr>
+                                <tr class = "muted">
                                     <td></td>
                                     <td>${notify.createtime}</td>
                                     <td>${notify.content}</td>
                                 </tr>
                             </c:when>
                             <c:otherwise>
-                                <tr class = "" style="text-decoration: line-through">
+                                <tr>
                                     <td><input value="${notify.id}" type="checkbox" class="ckSon"></td>
                                     <td>${notify.createtime}</td>
                                     <td>${notify.content}</td>
@@ -95,9 +95,9 @@
                 }
             }
             if(num == sons.length){
-                $("#ckFather")[0].checked == true;
+                $("#ckFather")[0].checked = true;
             }else{
-                $("#ckFather")[0].checked == false;
+                $("#ckFather")[0].checked = false;
             }
 
             if (num > 0){
@@ -108,22 +108,20 @@
 
         });
 
-        $("#markBtn").click(function(){
-            var ids = [];
-            var sons = $(".ckSon");
-            for(var i=0 ; i<sons.length;i++){
+       $("#markBtn").click(function () {
+           var ids = [];
+           var sons = $(".ckSon");
+           for(var i = 0;i<sons.length;i++){
                 if(sons[i].checked == true){
                     ids.push(sons[i].value);
                 }
-            }
-            alert(ids.join(","));
-            $.post("/notifyread",{"ids":ids.join(",")},function(json){
-                if (json == "success"){
-                    window.history.go(0);
-                }
-            });
-        });
-
+           }
+           $.post("/notifyread",{"ids":ids.join(",")},function (json) {
+               if(json == "success"){
+                   window.history.go(0);
+               }
+           });
+       });
 
     });
 

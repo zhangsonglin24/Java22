@@ -33,4 +33,9 @@ public class ReplyDao {
             }
         },topicId);
     }
+
+    public void delReplyByTopicId(String id) {
+        String sql = "delete from t_reply where topicid = ?";
+        DbHelp.update(sql,id);
+    }
 }

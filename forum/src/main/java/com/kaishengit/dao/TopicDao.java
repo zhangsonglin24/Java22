@@ -73,4 +73,8 @@ public class TopicDao {
         },array.toArray());
     }
 
+    public void delTopicById(String id) {
+        String sql = "delete from t_topic where id = ?";
+        DbHelp.update(sql,id);
+    }
 }

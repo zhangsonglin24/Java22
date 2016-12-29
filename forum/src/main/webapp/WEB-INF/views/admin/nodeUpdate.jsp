@@ -54,11 +54,11 @@
                     remote:"节点已存在"
                 }
             },
-            submitHandler:function () {
+            submitHandler:function (form) {
                 $.ajax({
                     url:"/admin/nodeUpdate",
                     type:"post",
-                    data:$("#updateForm").serialize(),
+                    data:$(form).serialize(),
                     success:function (json) {
                         if (json.state == "success"){
                             swal({title:"修改成功"},function () {

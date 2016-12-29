@@ -286,4 +286,8 @@ public class UserService {
             notifyDao.update(notify);
         }
     }
+
+    public List<User> findUserList() {
+        return userDao.findUserList();
+    }
 }

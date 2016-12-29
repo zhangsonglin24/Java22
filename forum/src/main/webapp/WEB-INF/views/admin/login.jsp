@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,16 @@
         </div>
 
         <form id="loginForm" action="" class="form-horizontal">
+            <c:if test="${not empty requestScope.message}">
+                <div class="alert alert-success">
+                        ${requestScope.message}
+                </div>
+            </c:if>
+            <c:if test="${not empty param.redirect}">
+                <div class="alert alert-success">
+                    请登录后再操作
+                </div>
+            </c:if>
             <div class="control-group">
                 <label class="control-label">账号</label>
                 <div class="controls">

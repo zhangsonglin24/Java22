@@ -4,6 +4,8 @@ import com.kaishengit.entity.User;
 import com.kaishengit.util.DbHelp;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
+import java.util.List;
+
 public class UserDao {
 
 
@@ -30,5 +32,13 @@ public class UserDao {
     public User findById(Integer id) {
         String sql = "select * from t_user where id = ?";
         return DbHelp.query(sql,new BeanHandler<>(User.class),id);
+    }
+
+    public List<User> findUserList() {
+        String sql = "SELECT MAX(tll.logintime),tu.username,tu.createtime,tll.ip\n" +
+                "FROM t_user tu,t_login_log tll\n" +
+                "WHERE tu.id = tll.userid\n" +
+                "GROUP BY tu.id";
+        return DbHelp.query(sql,)
     }
 }

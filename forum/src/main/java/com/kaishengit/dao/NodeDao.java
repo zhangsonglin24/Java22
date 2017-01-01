@@ -33,4 +33,9 @@ public class NodeDao {
         String sql = "delete from t_node where id = ?";
         DbHelp.update(sql,id);
     }
+
+    public List<Node> findAllNodess(int start, int pageSize) {
+        String sql = "select * from t_node ORDER BY id ASC LIMIT ?,?";
+        return DbHelp.query(sql,new BeanListHandler<>(Node.class),start,pageSize);
+    }
 }

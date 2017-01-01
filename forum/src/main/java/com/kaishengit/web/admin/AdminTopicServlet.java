@@ -1,5 +1,6 @@
 package com.kaishengit.web.admin;
 
+import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.AdminService;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/admin/topic")
 public class AdminTopicServlet extends BaseServlet {
@@ -22,8 +24,10 @@ public class AdminTopicServlet extends BaseServlet {
         Integer pageNo = StringUtils.isNumeric(p)?Integer.valueOf(p):1;
 
         TopicService topicService = new TopicService();
+        List<Node> nodeList = topicService.findAllNode();
         Page<Topic> page = topicService.findAllTopics("",pageNo);
 
+        req.setAttribute("nodeList",nodeList);
         req.setAttribute("page",page);
         forward("admin/topic",req,resp);
     }

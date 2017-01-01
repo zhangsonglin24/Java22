@@ -116,13 +116,27 @@ public class TopicService {
 
     public void updateTopicById(String title, String content, String nodeid, String topicid) {
         Topic topic = topicDao.findTopicById(topicid);
+        Integer lastNodeId = topic.getNodeid();
         if (topic.isEdit()) {
             topic.setTitle(title);
             topic.setContent(content);
             topic.setNodeid(Integer.valueOf(nodeid));
             topicDao.update(topic);
+            updatNode(lastNodeId,nodeid);
         } else {
             throw new ServiceException("该帖子已经不可编辑");
+        }
+    }
+    private void updatNode(Integer lastNodeId,String nodeid) {
+        if (lastNodeId != Integer.valueOf(nodeid)) {
+            //更新node表，使得原來的node的topicnum -1
+            Node lastNode = nodeDao.findNodeById(lastNodeId);
+            lastNode.setTopicnum(lastNode.getTopicnum() - 1);
+            nodeDao.update(lastNode);
+            //更新node表，使得新的node的topicnum + 1
+            Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
+            newNode.setTopicnum(newNode.getTopicnum() + 1);
+            nodeDao.update(newNode);
         }
     }
 
@@ -213,5 +227,40 @@ public class TopicService {
         }else{
             throw new ServiceException("参数异常");
         }
+    }
+
+    public void updateTopicNode(String topicid, String nodeid) {
+        if(StringUtils.isNumeric(topicid)&& StringUtils.isNumeric(nodeid)){
+            Topic topic = topicDao.findTopicById(topicid);
+            //更新topic的nodeid
+            topic.setNodeid(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+            //更新node表中的topicnum
+            updatNode(topic.getNodeid(),nodeid);
+        }else{
+            throw new ServiceException("参数异常");
+        }
+    }
+
+    public Page<HomeCount> getTopicAndReplyNumByDayList(Integer pageNo) {
+        int count = topicDao.countTopicByDay();
+        Page<HomeCount> page = new Page<>(count,pageNo);
+
+        List<HomeCount> countLit =  topicDao.getTopicAndReplyNumList(page.getStart(),page.getPageSize());
+        page.setItems(countLit);
+        return page;
+    }
+
+
+    public Page<Node> findAllNodes(Integer pageNo) {
+        int count = findAllNode().size();
+        Page<Node> page = new Page<>(count,pageNo);
+        List<Node> nodeList = findAllNode(page.getStart(),page.getPageSize());
+        page.setItems(nodeList);
+        return page;
+    }
+
+    private List<Node> findAllNode(int start, int pageSize) {
+        return nodeDao.findAllNodess(start,pageSize);
     }
 }

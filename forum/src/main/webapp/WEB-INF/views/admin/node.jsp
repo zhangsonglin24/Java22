@@ -34,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${nodeList}" var="node">
+        <c:forEach items="${page.items}" var="node">
             <tr>
                 <td>${node.nodename}</td>
                 <td>
@@ -45,12 +45,27 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="pagination pagination-mini pagination-centered">
+        <ul id="pagination" style="margin-bottom:20px;"></ul>
+    </div>
 </div>
 <!--container end-->
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/dist/sweetalert.min.js"></script>
+<script src="/static/js/jquery.twbsPagination.min.js"></script>
 <script>
     $(function () {
+
+        $("#pagination").twbsPagination({
+            totalPages:${page.totalPage},
+            visiblePages:5,
+            first:'首页',
+            last:'末页',
+            prev:'上一页',
+            next:'下一页',
+            href: '?p={{number}}'
+        });
+
        $(".delNode").click(function () {
            var id = $(this).attr("rel");
 

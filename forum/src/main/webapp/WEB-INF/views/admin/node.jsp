@@ -74,6 +74,7 @@
                type: "warning",
                showCancelButton: true,
                confirmButtonColor: "#DD6B55",
+               cancelButtonText:"取消",
                confirmButtonText: "确定",
                closeOnConfirm: false },
              function () {

@@ -24,7 +24,7 @@
         <input type="hidden" name="nodeid" value="${node.id}">
         <input type="text" name="nodename" value="${node.nodename}">
         <div class="form-actions">
-            <button id="saveBtn" class="btn btn-primary">保存</button>
+            <button type="button" id="saveBtn" class="btn btn-primary">保存</button>
         </div>
     </form>
 
@@ -36,6 +36,7 @@
 <script>
     $(function () {
         $("#saveBtn").click(function () {
+
             $("#updateForm").submit();
         });
 
@@ -55,6 +56,7 @@
                 }
             },
             submitHandler:function (form) {
+                alert("sa");
                 $.ajax({
                     url:"/admin/nodeUpdate",
                     type:"post",

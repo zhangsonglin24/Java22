@@ -83,7 +83,7 @@
                 success:function(data){
                     if(data.state == 'success') {
                         swal({title:"修改成功!"},function () {
-                            window.history.go(0);
+                            //window.history.go(0);
                         });
                     } else {
                         swal(data);
@@ -102,6 +102,7 @@
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
+                cancelButtonText:"取消",
                 confirmButtonText: "确定",
                 closeOnConfirm: false },
                 function(){

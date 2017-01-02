@@ -36,7 +36,7 @@
                 <td>${topic.replynum}</td>
                 <td>${topic.lastreplytime}</td>
                 <td>
-                    <select name="nodeid" id="nodeid">
+                    <select name="nodeid" id="${topic.id}">
                         <option value="">请选择节点</option>
                         <c:forEach items="${nodeList}" var="node">
                             <option ${topic.nodeid == node.id?'selected':''} value="${node.id}">${node.nodename}</option>
@@ -70,12 +70,12 @@
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href: '?p={{number}}'
+            href: '?p={{number}}&_=1'
         });
 
         $(".update").click(function(){
             var id = $(this).attr("rel");
-            var nodeid = $("#nodeid").val();
+            var nodeid = $("#"+id).val();
             $.ajax({
                 url:"/admin/topicNodeUpdate",
                 type:"post",
@@ -83,7 +83,7 @@
                 success:function(data){
                     if(data.state == 'success') {
                         swal({title:"修改成功!"},function () {
-                            //window.history.go(0);
+                            window.history.go(0);
                         });
                     } else {
                         swal(data);

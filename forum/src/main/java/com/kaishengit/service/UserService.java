@@ -85,7 +85,7 @@ public class UserService {
             public void run() {
                 //发送激活邮件
                 String token = UUID.randomUUID().toString();
-                String url = "http://www.zsl.com/user/active?token="+token;
+                String url = "http://"+Config.get("IP")+"/user/active?token="+token;
                 //放入缓存  并带个值username
                 cache.put(token,username);
                 String html = "<h2>尊敬的"+username+":</h2>请点击<a href='"+url+"'>此链接</a>激活账户!!!! <br> 论坛";
@@ -171,7 +171,7 @@ public class UserService {
                         @Override
                         public void run() {
                             String token = UUID.randomUUID().toString();
-                            String url = "http://www.zsl.com/resetpassword?token=" + token;
+                            String url = "http://"+Config.get("IP")+"/resetpassword?token=" + token;
                             passwordCache.put(token,user.getUsername());
 
                             String html = user.getUsername()+"<h2>请点击<a href='"+url+"'>该链接</a>进行找回密码操作，链接在30分钟内有效</h2>";

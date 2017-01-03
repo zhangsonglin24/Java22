@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/js/dist/sweetalert.css" rel="stylesheet">
     <style>
         .mt20 {
@@ -25,7 +25,7 @@
 <%@include file="../include/adminNavbar.jsp"%>
 <!--header-bar end-->
 <div class="container-fluid mt20">
-    <a href="newnode.html" class="btn btn-success">添加新节点</a>
+    <a href="/admin/addNewNode" class="btn btn-success">添加新节点</a>
     <table class="table">
         <thead>
         <tr>

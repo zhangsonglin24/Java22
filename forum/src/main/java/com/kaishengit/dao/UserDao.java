@@ -51,7 +51,7 @@ public class UserDao {
     }
 
     public UserVo findUserVo(Integer id) {
-        String sql = "select tll.logintime lastLoginTime,tll.ip loginIP,tu.id userId,tu.username username,tu.createtime ,tu.state userState from t_login_log tll ,t_user tu where userid = ? order by logintime desc limit 0,1";
+        String sql = "select tll.logintime lastLoginTime,tll.ip loginIP,tu.id userId,tu.username username,tu.createtime ,tu.state userState from t_login_log tll ,t_user tu where userid = ? and tu.id = tll.userid order by logintime desc limit 0,1";
         return DbHelp.query(sql,new BeanHandler<UserVo>(UserVo.class),id);
 
     }

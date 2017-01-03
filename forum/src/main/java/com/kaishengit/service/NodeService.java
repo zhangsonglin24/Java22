@@ -9,17 +9,17 @@ public class NodeService {
 
     private NodeDao nodeDao = new NodeDao();
 
-    public Boolean validateNodeName(String nodeid, String nodename) {
+    public String validateNodeName(String nodeid, String nodename) {
         Node node = nodeDao.findNodeById(Integer.valueOf(nodeid));
         if(node.getNodename().equals(nodename)){
-            return true;
+            return "true";
         }else{
             Node nodeExist = nodeDao.findNodeByNodeName(nodename);
             if(nodeExist == null){
-                return true;
+                return "true";
             }
         }
-        return false;
+        return "false";
     }
 
     public void updateNode(String nodeId, String nodeName) {
@@ -39,5 +39,17 @@ public class NodeService {
         }else{
             nodeDao.delNodeById(id);
         }
+    }
+
+    public String validateNewNodeName(String newNode) {
+        Node nodeExist = nodeDao.findNodeByNodeName(newNode);
+        if(nodeExist == null){
+            return "true";
+        }
+        return "false";
+    }
+
+    public void addNewNode(String newNode) {
+        nodeDao.addNewNode(newNode);
     }
 }

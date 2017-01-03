@@ -38,4 +38,9 @@ public class NodeDao {
         String sql = "select * from t_node ORDER BY id ASC LIMIT ?,?";
         return DbHelp.query(sql,new BeanListHandler<>(Node.class),start,pageSize);
     }
+
+    public void addNewNode(String newNode) {
+        String sql = "insert into t_node(nodename) values(?)";
+        DbHelp.update(sql,newNode);
+    }
 }

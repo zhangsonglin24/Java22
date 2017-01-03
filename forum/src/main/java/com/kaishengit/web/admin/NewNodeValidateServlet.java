@@ -10,17 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin/nodeValidate")
-public class NodeValidateServlet extends BaseServlet {
+@WebServlet("/admin/newNodeValidate")
+public class NewNodeValidateServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nodeid = req.getParameter("nodeid");
-        String nodename = req.getParameter("nodename");
-
-        nodename = StringUtils.isoToUtf8(nodename);
+        String newNode = req.getParameter("newNode");
+        newNode = StringUtils.isoToUtf8(newNode);
         NodeService nodeService = new NodeService();
-        String result = nodeService.validateNodeName(nodeid,nodename);
+        String result = nodeService.validateNewNodeName(newNode);
         renderText(result,resp);
     }
-
 }

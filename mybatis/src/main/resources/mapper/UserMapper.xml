@@ -13,7 +13,7 @@
         SELECT * FROM t_user
     </select>
     
-    <insert id="save" parameterType="com.kaishengit.pojo.User">
+    <insert id="save" parameterType="com.kaishengit.pojo.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_user(username,password) VALUES (#{username},#{password})
     </insert>
     

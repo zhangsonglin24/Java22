@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kaishengit.mapper.StudentMapper">
+
+    <select id="findById" resultMap="stuMap">
+        SELECT t_student.id,student_name,school_id,school_name
+        FROM t_student
+        INNER JOIN t_school
+        ON t_student.school_id=t_school.id
+         WHERE t_student.id = #{id}
+    </select>
+    <!--配置结果集映射-->
+    <resultMap id="stuMap" type="com.kaishengit.pojo.Student">
+        <id column="id" property="id"/>
+        <result column="studentName" property="studentName"/>
+        <result column="schoolId" property="schoolId"/>
+        <association property="school" javaType="com.kaishengit.pojo.School" column="schoolId">
+            <id property="id" column="schoolId"></id>
+            <result property="schoolName" column="schoolName"></result>
+        </association>
+    </resultMap>
+
+</mapper>        

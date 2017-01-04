@@ -49,7 +49,7 @@ public class MyBatisTestCase {
         SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
         List<User> userList = sqlSession.selectList("com.kaishengit.mapper.UserMapper.findAll");
         for(User user : userList){
-            System.out.println(user);
+            System.out.println(user );
         }
         sqlSession.close();
     }

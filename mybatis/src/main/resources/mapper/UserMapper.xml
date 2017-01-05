@@ -25,4 +25,24 @@
         DELETE FROM t_user WHERE id = #{id}
     </delete>
 
+    <select id="findByParam" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user
+        WHERE
+        username = #{username}
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+    </select>
+
+    <select id="findByParams" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user WHERE username = #{username} and password = #{pwd}
+    </select>
+
+    <insert id="batchSave">
+        INSERT INTO t_user(username,password)
+        VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username},#{user.password})
+        </foreach>
+    </insert>
 </mapper>        

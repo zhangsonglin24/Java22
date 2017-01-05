@@ -4,9 +4,28 @@ import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.User;
 import com.kaishengit.util.SqlSessionFactoryUtil;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyBatisInterfaceTestCase {
+
+    private SqlSession sqlSession;
+    private UserMapper userMapper;
+
+    @Before
+    public void setSqlSession(){
+        sqlSession = SqlSessionFactoryUtil.getSqlSession();
+        userMapper = sqlSession.getMapper(UserMapper.class);
+    }
+
+    @After
+    public void close(){
+        sqlSession.close();
+    }
 
     @Test
     public void findById(){
@@ -28,4 +47,5 @@ public class MyBatisInterfaceTestCase {
         System.out.println(user.getId());
         sqlSession.close();
     }
+
 }

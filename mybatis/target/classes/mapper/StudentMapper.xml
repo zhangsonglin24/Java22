@@ -5,22 +5,37 @@
 
 <mapper namespace="com.kaishengit.mapper.StudentMapper">
 
-    <select id="findById" resultMap="stuMap">
+    <!--<select id="findById" resultMap="stuMap">
         SELECT t_student.id,student_name,school_id,school_name
         FROM t_student
         INNER JOIN t_school
         ON t_student.school_id=t_school.id
-         WHERE t_student.id = #{id}
+        WHERE t_student.id = #{id}
+    </select>-->
+    <select id="findById" resultType="com.kaishengit.pojo.Student">
+        SELECT * FROM t_student WHERE id = #{id}
     </select>
-    <!--配置结果集映射-->
-    <resultMap id="stuMap" type="com.kaishengit.pojo.Student">
+
+    <select id="findAll" resultMap="map">
+        SELECT * FROM t_student
+    </select>
+    <resultMap id="map" type="com.kaishengit.pojo.Student">
         <id column="id" property="id"/>
-        <result column="studentName" property="studentName"/>
-        <result column="schoolId" property="schoolId"/>
-        <association property="school" javaType="com.kaishengit.pojo.School" column="schoolId">
-            <id property="id" column="schoolId"></id>
-            <result property="schoolName" column="schoolName"></result>
-        </association>
+        <result column="student_name" property="studentName"/>
+        <result column="school_id" property="schoolId"/>
+        <association property="school" javaType="com.kaishengit.pojo.School" column="school_id"
+                     select="com.kaishengit.mapper.SchoolMapper.findById"/>
     </resultMap>
 
+    <!--配置结果集映射-->
+    <!--<resultMap id="stuMap" type="com.kaishengit.pojo.Student">
+        <id column="id" property="id"/>
+        <result column="student_name" property="studentName"/>
+        <result column="school_id" property="schoolId"/>
+        <association property="school" javaType="com.kaishengit.pojo.School" column="schoolId">
+            <id property="id" column="school_id"/>
+            <result property="schoolName" column="school_name"/>
+        </association>
+    </resultMap>
+-->
 </mapper>        

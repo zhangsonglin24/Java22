@@ -4,8 +4,39 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kaishengit.mapper.SchoolMapper">
+
+
     <select id="findById" resultType="com.kaishengit.pojo.School">
         SELECT * FROM t_school WHERE id = #{id}
     </select>
+
+    <select id="findAll" resultMap="map">
+        SELECT * FROM t_school
+    </select>
+    <resultMap id="map" type="com.kaishengit.pojo.School">
+        <id column="school_id" property="id"/>
+        <result column="school_name" property="schoolName"/>
+        <collection property="studentList" ofType="com.kaishengit.pojo.Student" column="school_id"
+                    select="com.kaishengit.mapper.StudentMapper.findById"/>
+    </resultMap>
+
+
+ <!--   <select id="findById" resultMap="schmap">
+       SELECT t_student.id,student_name,school_id,school_name
+        FROM t_student
+        INNER JOIN t_school
+        ON t_student.school_id=t_school.id
+        WHERE t_school.id = #{id}
+    </select>
+
+    <resultMap id="schmap" type="com.kaishengit.pojo.School">
+        <id column="school_id" property="id"/>
+        <result column="school_name" property="schoolName"/>
+        <collection property="studentList" ofType="com.kaishengit.pojo.Student" column="school_id">
+            <id column="id" property="id"/>
+            <result column="student_name" property="studentName"/>
+            <result column="school_id" property="schoolId"/>
+        </collection>
+    </resultMap>-->
 
 </mapper>        

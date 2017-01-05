@@ -1,10 +1,21 @@
 package com.kaishengit.pojo;
 
 
+import java.util.List;
+
 public class School {
 
     private Integer id;
     private String schoolName;
+    private List<Student> studentList;
+
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
 
     public Integer getId() {
         return id;

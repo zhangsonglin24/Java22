@@ -5,6 +5,7 @@
 
 <mapper namespace="com.kaishengit.mapper.SchoolMapper">
 
+    <cache size="2048" readOnly="false" flushInterval="100000000" eviction="FIFO"/>
 
     <select id="findById" resultType="com.kaishengit.pojo.School">
         SELECT * FROM t_school WHERE id = #{id}

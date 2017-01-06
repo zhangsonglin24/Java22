@@ -16,7 +16,8 @@ public class MyBatisTestCase {
     @Test
     public void findById(){
         SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
-        User user = sqlSession.selectOne("com.kaishengit.mapper.UserMapper.findById",2);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.findById(3);
         System.out.println(user);
         sqlSession.close();
     }
@@ -35,10 +36,11 @@ public class MyBatisTestCase {
     @Test
     public void update(){
         SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession(true);
-
-        User user = sqlSession.selectOne("com.kaishengit.mapper.UserMapper.findById",10);
-        user.setPassword("112");
-        sqlSession.update("com.kaishengit.mapper.UserMapper.update",user);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.findById(3);
+        user.setUsername("hello");
+        user.setPassword("000");
+        userMapper.update(user);
         sqlSession.close();
     }
     @Test
@@ -81,13 +83,21 @@ public class MyBatisTestCase {
     @Test
     public void batchSave(){
         List<User> userList = new ArrayList<>();
-        userList.add(new User("kobe","776"));
-        userList.add(new User("pule","333"));
-        userList.add(new User("mike","745"));
+        userList.add(new User("小一","120"));
+        userList.add(new User("小二","130"));
+        userList.add(new User("小三","156"));
         SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         userMapper.batchSave(userList);
         sqlSession.commit();
+    }
+    @Test
+    public void findNameAndPwd(){
+        SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.findNameAndPwd("tom","111");
+        System.out.println(user);
+        sqlSession.close(); 
     }
 
 }

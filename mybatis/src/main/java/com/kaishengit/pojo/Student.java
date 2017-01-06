@@ -1,6 +1,8 @@
 package com.kaishengit.pojo;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private Integer id;
     private String studentName;
     private Integer schoolId;

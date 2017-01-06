@@ -34,9 +34,10 @@
 
     <!--加载Mapper.xml文件-->
     <mappers>
-        <mapper resource="mapper/UserMapper.xml"/>
+       <!-- <mapper resource="mapper/UserMapper.xml"/>-->
         <mapper resource="mapper/StudentMapper.xml"/>
         <mapper resource="mapper/SchoolMapper.xml"/>
+        <mapper class="com.kaishengit.mapper.UserMapper"/>
     </mappers>
 
 

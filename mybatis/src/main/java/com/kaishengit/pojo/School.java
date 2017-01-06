@@ -1,9 +1,10 @@
 package com.kaishengit.pojo;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class School {
+public class School implements Serializable {
 
     private Integer id;
     private String schoolName;

@@ -5,6 +5,8 @@
 
 <mapper namespace="com.kaishengit.mapper.StudentMapper">
 
+    <cache/>
+
     <!--<select id="findById" resultMap="stuMap">
         SELECT t_student.id,student_name,school_id,school_name
         FROM t_student
@@ -32,7 +34,7 @@
         <id column="id" property="id"/>
         <result column="student_name" property="studentName"/>
         <result column="school_id" property="schoolId"/>
-        <association property="school" javaType="com.kaishengit.pojo.School" column="schoolId">
+        <association property="school" javaType="com.kaishengit.pojo.School" column="school_id">
             <id property="id" column="school_id"/>
             <result property="schoolName" column="school_name"/>
         </association>

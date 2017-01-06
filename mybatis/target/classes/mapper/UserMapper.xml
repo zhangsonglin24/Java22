@@ -5,9 +5,8 @@
 
 <mapper namespace="com.kaishengit.mapper.UserMapper">
 
-    <select id="findById" parameterType="int" resultType="com.kaishengit.pojo.User">
-        SELECT * FROM t_user WHERE id = #{id}
-    </select>
+    <cache/>
+
 
     <select id="findAll" resultType="com.kaishengit.pojo.User">
         SELECT * FROM t_user
@@ -16,33 +15,30 @@
     <insert id="save" parameterType="com.kaishengit.pojo.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_user(username,password) VALUES (#{username},#{password})
     </insert>
-    
-    <update id="update" parameterType="com.kaishengit.pojo.User">
-        UPDATE t_user SET username = #{username},password = #{password} WHERE id = #{id}
-    </update>
 
     <delete id="del" parameterType="int">
         DELETE FROM t_user WHERE id = #{id}
     </delete>
 
-    <select id="findByParam" resultType="com.kaishengit.pojo.User">
-        SELECT * FROM t_user
-        WHERE
-        username = #{username}
-        <if test="password != null and password != ''">
-            and password = #{password}
-        </if>
-    </select>
-
     <select id="findByParams" resultType="com.kaishengit.pojo.User">
         SELECT * FROM t_user WHERE username = #{username} and password = #{pwd}
     </select>
+    <select id="findByParam" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user
+        <where>
+            <if test="username != null and username != ''">
+                username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
 
     <insert id="batchSave">
-        INSERT INTO t_user(username,password)
-        VALUES
-        <foreach collection="list" item="user" separator=",">
-            (#{user.username},#{user.password})
-        </foreach>
+       INSERT INTO t_user (username,password) VALUES
+       <foreach collection="list" item="user" separator=",">
+           (#{user.username},#{user.password})
+       </foreach>
     </insert>
 </mapper>        

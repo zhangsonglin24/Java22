@@ -6,5 +6,35 @@
 
     <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
+    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDaoImpl"/>
+        <property name="name" value="张三丰"/>
+        <property name="age" value="21"/>
+        <property name="list">
+            <list>
+                <value>A</value>
+                <value>B</value>
+                <value>C</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>234.5</value>
+                <value>34.21</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="K1" value="V1"></entry>
+                <entry key="K2" value="V2"></entry>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="P1">V1</prop>
+                <prop key="P2">V2</prop>
+            </props>
+        </property>
+    </bean>
 
 </beans>

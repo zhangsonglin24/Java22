@@ -12,6 +12,10 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
+   /* public UserServiceImpl(UserDao userDao){
+        this.userDao = userDao;
+    }*/
+
     private String name;
     private Integer age;
     private List<String> list;

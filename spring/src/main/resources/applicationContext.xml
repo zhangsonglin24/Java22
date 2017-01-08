@@ -6,7 +6,13 @@
 
     <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
-    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDaoImpl"/>
+    </bean>-->
+
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDaoImpl"/>
         <property name="name" value="张三丰"/>
         <property name="age" value="21"/>
@@ -35,6 +41,6 @@
                 <prop key="P2">V2</prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
 
 </beans>

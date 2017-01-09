@@ -2,12 +2,51 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+       <!--注解的Bean管理和IOC-->
+       <context:component-scan base-package="com.kaishengit"/>
+
+       <!--读取properties文件-->
+       <context:property-placeholder location="classpath:config.properties"/>
+
+       <!--配置数据源（数据库连接池）-->
+       <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+              <property name="driverClassName" value="${jdbc.driver}"/>
+              <property name="url" value="${jdbc.url}"/>
+              <property name="username" value="${jdbc.username}"/>
+              <property name="password" value="${jdbc.password}"/>
+       </bean>
+
+       <!--JDBCTemplate  相当于DbUtils-->
+       <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <property name="dataSource" ref="dataSource"/>
+       </bean>
+
+       <!--JDBC事务管理器-->
+       <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+              <property name="dataSource" ref="dataSource"/>
+       </bean>
+
+       <!--注解的事务声明-->
+       <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+
+
+
+
+
+    <!--<bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
     <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
             <property name="userDao" ref="userDaoImpl"/>
@@ -17,21 +56,21 @@
     <aop:config>
         <aop:aspect ref="AopAspect">
 
-            <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
-            <aop:around method="aroundAdvice" pointcut-ref="pt"/>
+           &lt;!&ndash; <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
+            <aop:around method="aroundAdvice" pointcut-ref="pt"/>&ndash;&gt;
 
-           <!-- &lt;!&ndash;切入点表达式&ndash;&gt;
+            &lt;!&ndash;切入点表达式&ndash;&gt;
             <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
             &lt;!&ndash;前置通知&ndash;&gt;
             <aop:before method="beforeAdvice" pointcut-ref="pt"/>
             &lt;!&ndash;后置通知&ndash;&gt;
-            <aop:after-returning method="afterAdvice" pointcut-ref="pt" returning=""/>
+            <aop:after-returning method="afterAdvice" pointcut-ref="pt" returning="result"/>
             &lt;!&ndash;异常通知&ndash;&gt;
-            <aop:after-throwing method="exceptionAdvice" pointcut-ref="pt"/>
+            <aop:after-throwing method="exceptionAdvice" pointcut-ref="pt" throwing="ex"/>
             &lt;!&ndash;最终通知&ndash;&gt;
-            <aop:after method="finallyAdvice" pointcut-ref="pt"/>-->
+            <aop:after method="finallyAdvice" pointcut-ref="pt"/>
         </aop:aspect>
-    </aop:config>
+    </aop:config>-->
 
 
 

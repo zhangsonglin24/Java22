@@ -1,15 +1,19 @@
 package com.kaishengit.service.impl;
 
 import com.kaishengit.dao.UserDao;
+import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
+@Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private UserDao userDao;
 
    /* public UserServiceImpl(UserDao userDao){
@@ -51,24 +55,14 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+
     @Override
-    public void findAll() {
-        if(1==1){
-            throw new RuntimeException("手动引发异常");
-        }
-        userDao.findAll();
+    public void save(User user) {
 
     }
 
     @Override
-    public void update() {
-        userDao.update();
-
-    }
-
-    @Override
-    public double getNum() {
-        System.out.println("getNum...............");
-        return 345.67;
+    public User findById(Integer id) {
+        return null;
     }
 }

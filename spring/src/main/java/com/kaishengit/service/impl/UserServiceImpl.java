@@ -53,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void findAll() {
+        if(1==1){
+            throw new RuntimeException("手动引发异常");
+        }
         userDao.findAll();
 
     }
@@ -61,5 +64,11 @@ public class UserServiceImpl implements UserService {
     public void update() {
         userDao.update();
 
+    }
+
+    @Override
+    public double getNum() {
+        System.out.println("getNum...............");
+        return 345.67;
     }
 }

@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
-    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
-        <constructor-arg name="userDao" ref="userDaoImpl"/>
-    </bean>-->
+    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+            <property name="userDao" ref="userDaoImpl"/>
+    </bean>
+
+    <bean id="AopAspect" class="com.kaishengit.aop.AopAspect"/>
+    <aop:config>
+        <aop:aspect ref="AopAspect">
+
+            <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
+            <aop:around method="aroundAdvice" pointcut-ref="pt"/>
+
+           <!-- &lt;!&ndash;切入点表达式&ndash;&gt;
+            <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
+            &lt;!&ndash;前置通知&ndash;&gt;
+            <aop:before method="beforeAdvice" pointcut-ref="pt"/>
+            &lt;!&ndash;后置通知&ndash;&gt;
+            <aop:after-returning method="afterAdvice" pointcut-ref="pt" returning=""/>
+            &lt;!&ndash;异常通知&ndash;&gt;
+            <aop:after-throwing method="exceptionAdvice" pointcut-ref="pt"/>
+            &lt;!&ndash;最终通知&ndash;&gt;
+            <aop:after method="finallyAdvice" pointcut-ref="pt"/>-->
+        </aop:aspect>
+    </aop:config>
 
 
 

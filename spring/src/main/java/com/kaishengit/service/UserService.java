@@ -4,5 +4,6 @@ public interface UserService {
 
     void findAll();
     void update();
+    double getNum();
 
 }

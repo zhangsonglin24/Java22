@@ -1,5 +1,6 @@
 package com.kaishengit.service.impl;
 
+
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.junit.Test;
@@ -17,16 +18,16 @@ public class UserServiceImplTest {
 
     @Test
     public void save(){
-        User user = new User("无语","222");
+        User user = new User();
+        user.setUsername("隔壁老王");
+        user.setPassword("123123");
         userService.save(user);
-
     }
 
     @Test
     public void findById(){
-        User user = userService.findById(12);
+        User user = userService.findById(23);
         System.out.println(user);
-
     }
 
 }

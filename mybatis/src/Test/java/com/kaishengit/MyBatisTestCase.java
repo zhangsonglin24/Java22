@@ -97,7 +97,7 @@ public class MyBatisTestCase {
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         User user = userMapper.findNameAndPwd("tom","111");
         System.out.println(user);
-        sqlSession.close(); 
+        sqlSession.close();
     }
 
 }

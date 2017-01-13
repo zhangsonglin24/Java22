@@ -1,5 +1,6 @@
 package com.kaishengit.service;
 
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface UserService {
     void editUser(User user);
 
     void del(Integer id);
+
+    List<Role> findAllRole();
+
+    void saveNewUser(User user, Integer[] roleIds);
 }

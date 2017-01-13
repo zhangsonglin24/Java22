@@ -29,20 +29,25 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <c:if test="${not empty message}">
-                        <div class="alert alert-success">
-                                ${message}
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        </div>
-                    </c:if>
+
                     <form method="post">
                         <div class="form-group">
                             <label>账号</label>
                             <input type="text" name="username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>密码</label>
-                            <input type="password" name="password" class="form-control">
+                            <label>密码(默认000000)</label>
+                            <input type="password" name="password" value="000000" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>角色</label>
+                            <div>
+                                <c:forEach items="${roleList}" var="role">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="roleIds" value="${role.id}"> ${role.viewName}
+                                    </label>
+                                </c:forEach>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success">保存</button>

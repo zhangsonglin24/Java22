@@ -21,7 +21,7 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
-            <div class="box box-solid box-primary">
+            <div class="box box-solid box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">账户管理</h3>
                     <div class="box-tools pull-right">
@@ -46,8 +46,8 @@
                         <tbody>
                         <c:forEach items="${userList}" var="user">
                             <tr>
-                                <td>${user.userName}</td>
-                                <td>${user.roleNames}</td>
+                                <td>${user.username}</td>
+                                <td></td>
                                 <td>
                                     <a href="/user/${user.id}/edit">编辑</a>
                                     <a href="/user/${user.id}/del">删除</a>

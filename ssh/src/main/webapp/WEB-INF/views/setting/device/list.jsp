@@ -6,15 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>AdminLTE 2 | Blank Page</title>
-    <%@include file="../include/css.jsp"%>
+    <%@include file="../../include/css.jsp"%>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
-    <%@include file="../include/header.jsp"%>
-    <jsp:include page="../include/aside.jsp">
-        <jsp:param name="menu" value="sys_accounts"/>
+    <%@include file="../../include/header.jsp"%>
+    <jsp:include page="../../include/aside.jsp">
+        <jsp:param name="menu" value="sys_device"/>
     </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
@@ -23,9 +23,9 @@
         <section class="content">
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">账户管理</h3>
+                    <h3 class="box-title">设备管理</h3>
                     <div class="box-tools pull-right">
-                        <a href="/user/new" class="btn"><i class="fa fa-plus"></i></a>
+                        <a href="/setting/device/new" class="btn"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="box-body">
@@ -65,6 +65,6 @@
 
 </div>
 
-<%@include file="../include/js.jsp"%>
+<%@include file="../../include/js.jsp"%>
 </body>
 </html>

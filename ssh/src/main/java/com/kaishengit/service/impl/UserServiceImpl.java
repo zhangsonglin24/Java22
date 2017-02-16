@@ -39,7 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void del(Integer id) {
+        //删除用户的角色
+        roleMapper.delRoleByUserId(id);
+        //删除用户
         userMapper.del(id);
     }
 

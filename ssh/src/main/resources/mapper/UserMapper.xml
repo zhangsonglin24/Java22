@@ -21,9 +21,22 @@
         delete from t_user where id = #{id}
     </delete>
 
-    <select id="findAll" resultType="com.kaishengit.pojo.User">
-        SELECT * FROM t_user
+    <select id="findAll" resultMap="UserMap">
+        select t_user.*,t_role.id as role_id,t_role.role_name,t_role.view_name from t_user
+        left join t_user_role on t_user.id = t_user_role.user_id
+        LEFT JOIN t_role on t_user_role.role_id = t_role.id
     </select>
+    <resultMap id="UserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="roleList" ofType="Role">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="view_name" property="viewName"/>
+        </collection>
+    </resultMap>
+
     <select id="findById" resultType="com.kaishengit.pojo.User">
         SELECT * FROM t_user where id = #{id}
     </select>

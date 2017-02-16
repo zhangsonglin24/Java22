@@ -26,6 +26,8 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model){
         List<User> userList = userService.findAll();
+        List<Role> roleList = userService.findAllRole();
+        model.addAttribute("roleList",roleList);
         model.addAttribute("userList",userList);
         return "user/list";
     }
@@ -51,6 +53,8 @@ public class UserController {
         if(user == null){
             throw new NotFoundException();
         }else{
+            List<Role> roleList = userService.findAllRole();
+            model.addAttribute("roleList",roleList);
             model.addAttribute("user",user);
             return "user/edit";
         }

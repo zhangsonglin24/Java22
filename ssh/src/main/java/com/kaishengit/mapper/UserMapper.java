@@ -14,4 +14,6 @@ public interface UserMapper {
     void updateUser(User user);
 
     void del(Integer id);
+
+    User findByUserName(String userName);
 }

@@ -13,4 +13,6 @@ public class Device implements Serializable {
     private Integer totalNum;
     private Integer currentNum;
     private Float price;
+
+
 }

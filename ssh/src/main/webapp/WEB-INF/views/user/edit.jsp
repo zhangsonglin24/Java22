@@ -13,9 +13,7 @@
 <div class="wrapper">
 
     <%@include file="../include/header.jsp"%>
-    <jsp:include page="../include/aside.jsp">
-        <jsp:param name="menu" value="sys_accounts"/>
-    </jsp:include>
+    <%@include file="../include/aside.jsp"%>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -23,7 +21,7 @@
         <section class="content">
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">编辑</h3>
+                    <h3 class="box-title">账户管理</h3>
                     <div class="box-tools pull-right">
                         <a href="/user/new" class="btn"><i class="fa fa-plus"></i></a>
                     </div>
@@ -33,7 +31,7 @@
                         <input type="hidden" name="id" value="${user.id}">
                         <div class="form-group">
                             <label>账号</label>
-                            <input type="text" name="username" value="${user.username}" class="form-control">
+                            <input type="text" name="userName" value="${user.userName}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>密码(如果不修改请留空)</label>

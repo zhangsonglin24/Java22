@@ -40,7 +40,7 @@ public class SettingDeviceController {
         return "redirect:/setting/device";
     }
 
-   @PostMapping("/load")
+    @PostMapping("/load")
     @ResponseBody
     public  Map<String,Object> load(HttpServletRequest request){
         String draw = request.getParameter("draw");

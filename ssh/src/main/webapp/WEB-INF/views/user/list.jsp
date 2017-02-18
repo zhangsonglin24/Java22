@@ -46,7 +46,7 @@
                         <tbody>
                         <c:forEach items="${userList}" var="user">
                             <tr>
-                                <td>${user.username}</td>
+                                <td>${user.userName}</td>
                                 <td>${user.roleNames}</td>
                                 <td>
                                     <a href="/user/${user.id}/edit">编辑</a>

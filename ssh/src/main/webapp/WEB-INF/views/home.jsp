@@ -24,7 +24,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">欢迎您！<shiro:principal property="userName"/></h3>
+                    <h2 class="box-title">欢迎您！<shiro:principal property="userName"/></h2>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -32,7 +32,7 @@
                         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
                             <i class="fa fa-times"></i></button>
                     </div>
-                </div>
+               <%-- </div>
                 <div class="box-body">
                     Start creating your amazing application!
                 </div>
@@ -41,7 +41,7 @@
                     Footer
                 </div>
                 <!-- /.box-footer-->
-            </div>
+                 </div>--%>
             <!-- /.box -->
 
         </section>

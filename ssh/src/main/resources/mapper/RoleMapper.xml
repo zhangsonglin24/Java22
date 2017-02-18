@@ -17,4 +17,9 @@
     <select id="findById" resultType="com.kaishengit.pojo.Role">
         select * from t_role where id = #{id}
     </select>
+    <select id="findByUserId" resultType="com.kaishengit.pojo.Role">
+         select * from t_role
+        left join t_user_role on t_role.id = t_user_role.role_id
+        where t_user_role.user_id = #{userId}
+    </select>
 </mapper>

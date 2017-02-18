@@ -10,7 +10,7 @@ import java.util.List;
 public class User implements Serializable {
 
     private Integer id;
-    private String username;
+    private String userName;
     private String password;
     private List<Role> roleList;
 
@@ -25,8 +25,8 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String userName, String password) {
+        this.userName = userName;
         this.password = password;
     }
 
@@ -38,12 +38,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -70,13 +70,13 @@ public class User implements Serializable {
         return sb.toString();
     }
 
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", roleList=" + roleList +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.kaishengit.service.impl;
 import com.kaishengit.mapper.DeviceMapper;
 import com.kaishengit.pojo.Device;
 import com.kaishengit.service.DeviceService;
+import com.kaishengit.shiro.ShiroUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class DeviceServiceImpl implements DeviceService {
         //让当前库存数量和总数量相等
         device.setCurrentNum(device.getTotalNum());
         deviceMapper.save(device);
+
+        logger.info("{}添加了新设备{}", ShiroUtil.getCurrentUserName(),device.getName());
+
     }
 
     @Override
@@ -50,5 +54,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public void delDevice(Integer id) {
         deviceMapper.del(id);
+    }
+
+    @Override
+    public Device findDeviceById(Integer id) {
+        return deviceMapper.findById(id);
     }
 }

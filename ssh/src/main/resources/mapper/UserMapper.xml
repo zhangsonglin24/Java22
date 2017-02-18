@@ -5,12 +5,12 @@
 
 <mapper namespace="com.kaishengit.mapper.UserMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_user(username,password) VALUES (#{username},#{password})
+        INSERT INTO t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
     <update id="updateUser">
         update t_user
         <set>
-            username = #{username},
+            user_name = #{userName},
             <if test="password != null and password != ''">
                 password = #{password}
             </if>
@@ -28,7 +28,7 @@
     </select>
     <resultMap id="UserMap" type="User">
         <id column="id" property="id"/>
-        <result column="username" property="username"/>
+        <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <collection property="roleList" ofType="Role">
             <id column="role_id" property="id"/>

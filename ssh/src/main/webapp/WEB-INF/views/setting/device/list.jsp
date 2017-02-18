@@ -76,6 +76,7 @@
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
 <script>
     $(function () {
+
         var table = $(".table").DataTable({
             "lengthMenu": [5,10,25,20],
             "serverSide": true,
@@ -141,7 +142,6 @@
         $("#searchBtn").click(function () {
             table.draw(); //dataTables发出请求
         });
-
 
     });
 </script>

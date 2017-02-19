@@ -263,7 +263,7 @@
         });
 
 
-    });
+    }        );
 
     var app = new Vue({
         el:"#app",
@@ -318,11 +318,10 @@
                     totalDate : $("#totalDays").val()
                 };
 
-                //JSON.parse()
                 $.ajax({
                     url:"/device/rent/new",
                     type:"post",
-                    data: JSON.stringify(json),
+                    data: JSON.stringify(json),//将JSON转换成字符串
                     contentType: "application/json;charset=UTF-8",
                     success:function(data){
                         if(data.status == 'success') {

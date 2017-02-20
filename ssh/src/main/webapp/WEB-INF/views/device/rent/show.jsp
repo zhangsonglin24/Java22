@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/plugins/uploader/webuploader.css">
     <link rel="stylesheet" href="/static/plugins/datepicker/datepicker3.css">
     <link rel="stylesheet" href="/static/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="/static/Font-Awesome/css/font-awesome.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -132,7 +133,7 @@
                     <h3 class="box-title">合同扫描件</h3>
                     <div class="box-tools pull-right">
                         <a href="/device/rent/doc/zip?id=${rent.id}" class="btn btn-sm btn-default">
-                            <i class="fa fa-download"></i> 打包下载
+                            <i class="icon-cloud-download"></i> 打包下载
                         </a>
                     </div>
                 </div>

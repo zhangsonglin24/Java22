@@ -1,6 +1,8 @@
 package com.kaishengit.controller;
 
+import com.google.common.collect.Maps;
 import com.kaishengit.dto.AjaxResult;
+import com.kaishengit.dto.DataTablesResult;
 import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.exception.NotFoundException;
 import com.kaishengit.exception.ServiceException;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +31,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 @Controller
@@ -113,25 +117,8 @@ public class DeviceRentController {
     /**
      * 合同文件的下载
      */
+
     @GetMapping("/doc")
-    @ResponseBody
-    public ResponseEntity<InputStreamSource> downloadFile(Integer id) throws IOException {
-        InputStream inputStream = deviceService.downloadFile(id);
-        if(inputStream == null){
-            throw new NotFoundException();
-        }else {
-            DeviceRentDocs docs = deviceService.findDeviceRentDocsById(id);
-            String fileName = docs.getSourceName();
-            //将文件下载标记为二进制
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment",fileName, Charset.forName("UTF-8"));
-            return new ResponseEntity<InputStreamSource>(new InputStreamResource(inputStream),headers, HttpStatus.OK);
-
-        }
-    }
-
-    /*@GetMapping("/doc")
     public void downloadFile(Integer id, HttpServletResponse response) throws IOException {
         InputStream inputStream = deviceService.downloadFile(id);
         if(inputStream == null){
@@ -152,8 +139,27 @@ public class DeviceRentController {
             inputStream.close();
         }
 
-    }*/
+    }
 
+  /*  @GetMapping("/doc")
+    @ResponseBody
+    public ResponseEntity<InputStreamSource> downloadFile(Integer id) throws IOException {
+        InputStream inputStream = deviceService.downloadFile(id);
+        if(inputStream == null){
+            throw new NotFoundException();
+        }else {
+            DeviceRentDocs docs = deviceService.findDeviceRentDocsById(id);
+            String fileName = docs.getSourceName();
+            //将文件下载标记为二进制
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment",fileName, Charset.forName("UTF-8"));
+            return new ResponseEntity<InputStreamSource>(new InputStreamResource(inputStream),headers, HttpStatus.OK);
+
+        }
+    }
+
+*/
     /**
      * 合同文件的打包下载
      */
@@ -175,4 +181,32 @@ public class DeviceRentController {
             deviceService.downloadZipFile(rent,zipOutputStream);
         }
     }
+
+    @GetMapping("/load")
+    @ResponseBody
+    public DataTablesResult load(HttpServletRequest request) {
+        String draw = request.getParameter("draw");
+        String start = request.getParameter("start");
+        String length = request.getParameter("length");
+
+        Map<String,Object> queryParam = Maps.newHashMap();
+        queryParam.put("start",start);
+        queryParam.put("length",length);
+
+        List<DeviceRent> deviceRentList = deviceService.findDeviceRentByQueryParam(queryParam);
+        Long count = deviceService.countOfDeviceRent();
+
+        return new DataTablesResult(draw,count,count,deviceRentList);
+    }
+
+    /**
+     * 将合同状态修改为已完成
+     */
+    @PostMapping("/state/change")
+    @ResponseBody
+    public AjaxResult changeRentState(Integer id){
+        deviceService.changeRentState(id);
+        return new AjaxResult(AjaxResult.SUCCESS);
+    }
+
 }

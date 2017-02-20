@@ -21,4 +21,5 @@ public interface DeviceMapper {
 
     Device findById(Integer id);
 
+    void updateCurrentNum(Device device);
 }

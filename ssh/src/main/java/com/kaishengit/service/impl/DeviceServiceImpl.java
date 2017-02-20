@@ -2,6 +2,7 @@ package com.kaishengit.service.impl;
 
 import com.google.common.collect.Lists;
 import com.kaishengit.dto.DeviceRentDto;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.mapper.DeviceMapper;
 import com.kaishengit.mapper.DeviceRentDetailMapper;
 import com.kaishengit.mapper.DeviceRentDocsMapper;
@@ -13,14 +14,19 @@ import com.kaishengit.pojo.DeviceRentDocs;
 import com.kaishengit.service.DeviceService;
 import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.SerialNumberUtil;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
@@ -36,6 +42,8 @@ public class DeviceServiceImpl implements DeviceService {
     @Autowired
     private DeviceRentDocsMapper rentDocsMapper;
 
+    @Value("${upload.path}")
+    private String fileSavePath;
 
     @Override
     public void saveNewDevice(Device device) {
@@ -106,6 +114,15 @@ public class DeviceServiceImpl implements DeviceService {
         List<DeviceRentDetail> detailList = Lists.newArrayList();
         float total = 0F;
         for(DeviceRentDto.DeviceArrayBean bean : deviceArray) {
+            //查询当前设备库存是否足够
+            Device device = deviceMapper.findById(bean.getId());
+            if(device.getCurrentNum() < bean.getNum()){
+                throw new ServiceException(device.getName()+"库存不足");
+            }else{
+                device.setCurrentNum(device.getCurrentNum() - bean.getNum());
+                deviceMapper.updateCurrentNum(device);
+            }
+
             DeviceRentDetail rentDetail = new DeviceRentDetail();
             rentDetail.setDeviceName(bean.getName());
             rentDetail.setTotalPrice(bean.getTotal());
@@ -168,6 +185,48 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<DeviceRentDocs> findDeviceRentDocsListByRentId(Integer id) {
         return rentDocsMapper.findByRentId(id);
+    }
+
+    @Override
+    public InputStream downloadFile(Integer docId) throws IOException {
+        DeviceRentDocs docs = rentDocsMapper.findById(docId);
+        if(docs == null){
+            return null;
+        }else{
+            File file = new File(new File(fileSavePath),docs.getNewName());
+            if(file.exists()){
+                return new FileInputStream(file);
+            }else{
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public DeviceRentDocs findDeviceRentDocsById(Integer id) {
+        return rentDocsMapper.findById(id);
+    }
+
+    @Override
+    public DeviceRent findDeviceRentById(Integer id) {
+        return rentMapper.findById(id);
+    }
+
+    @Override
+    public void downloadZipFile(DeviceRent rent, ZipOutputStream zipOutputStream) throws IOException {
+        //查找合同有多少合同附件
+        List<DeviceRentDocs> deviceRentDocs = findDeviceRentDocsListByRentId(rent.getId());
+        for(DeviceRentDocs docs : deviceRentDocs){
+            ZipEntry entry = new ZipEntry(docs.getSourceName());
+            zipOutputStream.putNextEntry(entry);
+
+            InputStream inputStream = downloadFile(docs.getId());
+            IOUtils.copy(inputStream,zipOutputStream);
+            inputStream.close();
+        }
+        zipOutputStream.closeEntry();
+        zipOutputStream.flush();
+        zipOutputStream.close();
     }
 
 

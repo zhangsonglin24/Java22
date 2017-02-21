@@ -1,5 +1,6 @@
 package com.kaishengit.service.impl;
 
+import com.google.common.collect.Lists;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.mapper.DiskMapper;
 import com.kaishengit.pojo.Disk;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,4 +84,60 @@ public class DiskServiceImpl implements DiskService {
 
         diskMapper.save(disk);
     }
-}
+    public Disk findById(Integer id) {
+        return diskMapper.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void delById(Integer id) {
+        Disk disk = findById(id);
+        if(disk != null){
+            if(Disk.FILE_TYPE.equals(disk.getType())){
+                //删除文件
+                File file = new File(savePath,disk.getName());
+                file.delete();
+                //删除数据库中的记录
+                diskMapper.delete(id);
+            }else {
+                //查出所有记录
+                List<Disk> diskList = diskMapper.findAll();
+                //将要删除的ID
+                List<Integer> delIdList = Lists.newArrayList();
+                findDelId(diskList,delIdList,id);
+                delIdList.add(id);
+                //批量删除
+                diskMapper.batchDel(delIdList);
+            }
+        }
+    }
+
+    @Override
+    public InputStream downloadFile(Integer id) throws FileNotFoundException {
+        Disk disk = diskMapper.findById(id);
+        if(disk == null || Disk.DIRECTORY_TYPE.equals(disk.getType())){
+            return null;
+        }else{
+            FileInputStream inputStream = new FileInputStream(new File(new File(savePath),disk.getName()));
+            return inputStream;
+        }
+
+    }
+
+    private void findDelId(List<Disk> diskList, List<Integer> delIdList, Integer id) {
+        for(Disk disk : diskList){
+            if(disk.getFid().equals(id)){
+                delIdList.add(disk.getId());
+                if(disk.getType().equals(Disk.DIRECTORY_TYPE)){
+                    findDelId(diskList,delIdList,disk.getId());
+                }else {
+                    File file = new File(savePath,disk.getName());
+                    file.delete();
+                    }
+                }
+            }
+        }
+    }
+
+
+

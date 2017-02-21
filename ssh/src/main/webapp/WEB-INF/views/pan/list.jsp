@@ -17,6 +17,12 @@
         #newFolder{
             margin-top: 4px;
         }
+        th{
+            text-align: center;
+        }
+        td{
+            text-align: center;
+        }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -91,7 +97,9 @@
                                 <td>${disk.size}</td>
                                 <td>${disk.createTime}</td>
                                 <td>${disk.createUser}</td>
-                                <td></td>
+                                <td>
+                                    <a href="javascript:;" class="remove" rel="${disk.id}"><i class="fa fa-trash text-danger"></i></a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -149,6 +157,23 @@
                 }).error(function(){
                     layer.msg("服务器异常");
                 });
+            });
+        });
+        $(".remove").click(function () {
+           var id = $(this).attr("rel");
+            layer.confirm("确定要删除吗？",function (index) {
+                layer.close(index);
+
+                $.get("/pan/del/"+id).done(function (resp) {
+                   if(resp.status == "success"){
+                       layer.msg("删除成功！");
+                       window.history.go(0);
+                   }else {
+                       layer.msg(resp.message);
+                   }
+                }).error(function () {
+                    layer.msg("服务器忙，请稍后操作");
+                })
             });
         });
     });

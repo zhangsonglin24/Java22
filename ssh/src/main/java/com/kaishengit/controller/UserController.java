@@ -48,18 +48,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id:\\d+}/edit",method = RequestMethod.GET)
-    public String userEdit(@PathVariable Integer id,Model model){
+    public String editUser(@PathVariable Integer id,Model model) {
         User user = userService.findById(id);
-        if(user == null){
+        if(user == null) {
             throw new NotFoundException();
-        }else{
+        } else {
             List<Role> roleList = userService.findAllRole();
             model.addAttribute("roleList",roleList);
             model.addAttribute("user",user);
             return "user/edit";
         }
-
     }
+
 
     @RequestMapping(value = "/{id:\\d+}/edit",method = RequestMethod.POST)
     public String userEdit(User user,RedirectAttributes redirectAttributes){

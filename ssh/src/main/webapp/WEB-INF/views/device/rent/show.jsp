@@ -145,7 +145,9 @@
                     </ul>
                 </div>
             </div>
-
+            <div class="box-tools pull-right">
+                <a href="/device/rent" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></a>
+            </div>
         </section>
         <!-- /.content -->
     </div>

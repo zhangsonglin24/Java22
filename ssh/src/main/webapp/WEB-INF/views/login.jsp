@@ -16,11 +16,11 @@
         <legend>系统登录</legend>
         <div class="form-group">
             <label>账号</label>
-            <input type="text" name="userName" class="form-control">
+            <input type="text" name="userName">
         </div>
         <div class="form-group">
             <label>密码</label>
-            <input type="password" name="password" class="form-control">
+            <input type="password" name="password">
         </div>
         <div class="form-group">
             <button class="btn">登录</button>

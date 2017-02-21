@@ -11,7 +11,7 @@
             <shiro:hasRole name="role_mar">
             <li class="header">业务模块</li>
             <li class="treeview">
-                <a href="#">
+                <a href="/pan">
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
             </li>

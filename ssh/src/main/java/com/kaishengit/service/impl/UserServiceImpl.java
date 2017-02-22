@@ -5,7 +5,10 @@ import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,9 +36,29 @@ public class UserServiceImpl implements UserService {
         return userMapper.findById(id);
     }
 
+
     @Override
-    public void editUser(User user) {
-        userMapper.updateUser(user);
+    @Transactional
+    public void editUser(User user, Integer[] roleIds) {
+        //删除原有角色
+        roleMapper.delRoleByUserId(user.getId());
+        //添加新角色
+        addUserRole(user, roleIds);
+        //更新用户
+        if(StringUtils.isNotEmpty(user.getPassword())) {
+        }
+        userMapper.update(user);
+    }
+
+    private void addUserRole(User user, Integer[] roleIds) {
+        if(roleIds != null){
+            for(Integer roleId : roleIds){
+                Role role = roleMapper.findById(roleId);
+                if(role != null){
+                    roleMapper.saveNewUserRole(user.getId(),roleId);
+                }
+            }
+        }
     }
 
     @Override
@@ -56,6 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveNewUser(User user, Integer[] roleIds) {
+        //user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
         userMapper.save(user);
         if(roleIds != null){
             for(Integer roleId : roleIds){
@@ -66,4 +90,5 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
 }

@@ -44,7 +44,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${userL0ist}" var="user">
+                        <c:forEach items="${userList}" var="user">
                             <tr>
                                 <td>${user.userName}</td>
                                 <td>${user.roleNames}</td>

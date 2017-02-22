@@ -92,7 +92,7 @@ public class PanController {
         Disk disk = diskService.findById(id);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);//将文件下载标记为二进制
         headers.setContentDispositionFormData("attachement", disk.getSourceName(), Charset.forName("UTF-8"));
 
         return new ResponseEntity<InputStreamSource>(new InputStreamResource(inputStream), headers, HttpStatus.OK);

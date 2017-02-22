@@ -33,7 +33,7 @@
                     <form method="post">
                         <div class="form-group">
                             <label>账号</label>
-                            <input type="text" name="username" class="form-control">
+                            <input type="text" name="userName" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>密码(默认000000)</label>

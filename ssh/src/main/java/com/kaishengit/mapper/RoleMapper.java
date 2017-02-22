@@ -15,4 +15,6 @@ public interface RoleMapper {
     void delRoleByUserId(Integer userId);
 
     List<Role> findByUserId(Integer id);
+
+    List<Role> findAllRoleListById(Integer id);
 }

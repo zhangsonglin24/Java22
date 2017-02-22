@@ -12,11 +12,12 @@ public interface UserService {
 
     User findById(Integer id);
 
-    void editUser(User user);
 
     void del(Integer id);
 
     List<Role> findAllRole();
 
     void saveNewUser(User user, Integer[] roleIds);
+
+    void editUser(User user, Integer[] roleIds);
 }

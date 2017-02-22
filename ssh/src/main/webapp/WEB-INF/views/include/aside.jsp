@@ -10,7 +10,7 @@
 
             <shiro:hasRole name="role_mar">
             <li class="header">业务模块</li>
-            <li class="treeview">
+            <li  class="treeview ${param.menu == 'pan' ? 'active' : ''}">
                 <a href="/pan">
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
@@ -20,8 +20,8 @@
                     <i class="fa fa-circle-o"></i> <span>设备租赁</span>
                 </a>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li  class="treeview ${param.menu == 'work_add' ? 'active' : ''}">
+                <a href="/work/out">
                     <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
                 </a>
             </li>

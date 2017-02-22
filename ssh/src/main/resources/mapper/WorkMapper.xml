@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.WorkMapper">
+    <select id="findAllWork" resultType="com.kaishengit.pojo.Work">
+        select * from t_work
+    </select>
+    <select id="findWorkById" resultType="com.kaishengit.pojo.Work">
+        select * from t_work WHERE id = #{id}
+    </select>
+</mapper>

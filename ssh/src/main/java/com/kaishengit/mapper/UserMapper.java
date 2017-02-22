@@ -1,5 +1,6 @@
 package com.kaishengit.mapper;
 
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UserMapper {
     void del(Integer id);
 
     User findByUserName(String userName);
+
+    void update(User user);
 }

@@ -62,10 +62,8 @@ public class UserController {
 
 
     @RequestMapping(value = "/{id:\\d+}/edit",method = RequestMethod.POST)
-    public String userEdit(User user,RedirectAttributes redirectAttributes){
-
-        System.out.println(user);
-        userService.editUser(user);
+    public String userEdit(User user,Integer[] roleIds,RedirectAttributes redirectAttributes){
+        userService.editUser(user,roleIds);
         redirectAttributes.addFlashAttribute("message","操作成功");
         return "redirect:/user";
     }

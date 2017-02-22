@@ -111,6 +111,20 @@ public class DiskServiceImpl implements DiskService {
             }
         }
     }
+    private void findDelId(List<Disk> diskList, List<Integer> delIdList, Integer id) {
+        for(Disk disk : diskList){
+            if(disk.getFid().equals(id)){      //如果其fid等于将要删除的id(即：其为id文件夹中的子)
+                delIdList.add(disk.getId());   //将其加入要删除的id中
+                if(disk.getType().equals(Disk.DIRECTORY_TYPE)){  //如果是文件夹，则重调方法(递归)
+                    findDelId(diskList,delIdList,disk.getId());
+                }else {
+                    File file = new File(savePath,disk.getName());//如果是文件，直接删除
+                    file.delete();
+                    }
+                }
+            }
+        }
+
 
     @Override
     public InputStream downloadFile(Integer id) throws FileNotFoundException {
@@ -123,21 +137,7 @@ public class DiskServiceImpl implements DiskService {
         }
 
     }
-
-    private void findDelId(List<Disk> diskList, List<Integer> delIdList, Integer id) {
-        for(Disk disk : diskList){
-            if(disk.getFid().equals(id)){
-                delIdList.add(disk.getId());
-                if(disk.getType().equals(Disk.DIRECTORY_TYPE)){
-                    findDelId(diskList,delIdList,disk.getId());
-                }else {
-                    File file = new File(savePath,disk.getName());
-                    file.delete();
-                    }
-                }
-            }
-        }
-    }
+}
 
 
 

@@ -17,6 +17,16 @@
         </set>
         where id = #{id}
     </update>
+    <update id="update">
+        update t_user
+        <set>
+            user_name = #{userName},
+            <if test="password != null and password != ''">
+                password = #{password}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     <delete id="del">
         delete from t_user where id = #{id}
     </delete>
@@ -43,4 +53,5 @@
     <select id="findByUserName" resultType="com.kaishengit.pojo.User">
         SELECT * FROM t_user where user_name = #{userName}
     </select>
+
 </mapper>

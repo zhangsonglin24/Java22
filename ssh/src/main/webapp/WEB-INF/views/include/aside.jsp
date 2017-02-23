@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<link rel="stylesheet" href="/static/Font-Awesome/css/font-awesome.min.css">
 <!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -10,31 +11,50 @@
 
             <shiro:hasRole name="role_mar">
             <li class="header">业务模块</li>
-            <li  class="treeview ${param.menu == 'pan' ? 'active' : ''}">
-                <a href="/pan">
-                    <i class="fa fa-circle-o"></i> <span>网盘系统</span>
-                </a>
-            </li>
-            <li class="treeview ${param.menu == 'business_device_rent' ? 'active' : ''}">
-                <a href="/device/rent">
-                    <i class="fa fa-circle-o"></i> <span>设备租赁</span>
-                </a>
-            </li>
-            <li  class="treeview ${param.menu == 'work_add' ? 'active' : ''}">
-                <a href="/work/out">
-                    <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
-                </a>
-            </li>
+                <li class="treeview ${fn:startsWith(param.menu,'business_') ? 'active' : ''}">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-home"></i> <span>综合业务</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li  class="treeview ${param.menu == 'business_pan' ? 'active' : ''}">
+                            <a href="/pan">
+                                <i class="fa fa-circle-o"></i> <span>网盘系统</span>
+                            </a>
+                        </li>
+                        <li class="treeview ${param.menu == 'business_device_rent' ? 'active' : ''}">
+                            <a href="/device/rent">
+                                <i class="fa fa-circle-o"></i> <span>设备租赁</span>
+                            </a>
+                        </li>
+                        <li  class="treeview ${fn:startsWith(param.menu,'business_work_out') ? 'active' : ''}">
+                            <a href="/work/out">
+                                <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
             </shiro:hasRole>
             <shiro:hasRole name="role_fin">
                 <li class="header">财务模块</li>
-                <li class="treeview">
+                <li class="treeview ${fn:startsWith(param.menu,'fin_') ? 'active' : ''}">
                     <a href="#">
-                        <i class="fa fa-circle-o"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="glyphicon glyphicon-book"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o"></i> 日报</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o"></i> 月报</a>
+                        </li>
+                        <li class="${param.menu == 'fin_year' ? 'active' : ''}">
+                            <a href="/report"><i class="fa fa-circle-o"></i> 年报</a>
+                        </li>
+                    </ul>
                 </li>
             </shiro:hasRole>
-            <shiro:hasRole name="role_admin">--%>
+            <shiro:hasRole name="role_admin">
                 <li class="header">设置模块</li>
                 <li class="treeview ${fn:startsWith(param.menu,'sys_') ? 'active' : ''}">
                     <a href="#">

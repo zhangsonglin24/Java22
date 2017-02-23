@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="/static/plugins/datatables/extensions/FixedHeader/css/dataTables.fixedHeader.min.css">
     <link rel="stylesheet" href="/static/Font-Awesome/css/font-awesome.min.css">
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->

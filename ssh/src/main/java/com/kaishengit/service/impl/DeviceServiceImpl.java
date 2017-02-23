@@ -3,18 +3,13 @@ package com.kaishengit.service.impl;
 import com.google.common.collect.Lists;
 import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.exception.ServiceException;
-import com.kaishengit.mapper.DeviceMapper;
-import com.kaishengit.mapper.DeviceRentDetailMapper;
-import com.kaishengit.mapper.DeviceRentDocsMapper;
-import com.kaishengit.mapper.DeviceRentMapper;
-import com.kaishengit.pojo.Device;
-import com.kaishengit.pojo.DeviceRent;
-import com.kaishengit.pojo.DeviceRentDetail;
-import com.kaishengit.pojo.DeviceRentDocs;
+import com.kaishengit.mapper.*;
+import com.kaishengit.pojo.*;
 import com.kaishengit.service.DeviceService;
 import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.SerialNumberUtil;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +36,8 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceRentDetailMapper rentDetailMapper;
     @Autowired
     private DeviceRentDocsMapper rentDocsMapper;
+    @Autowired
+    private FinanceMapper financeMapper;
 
     @Value("${upload.path}")
     private String fileSavePath;
@@ -159,10 +156,19 @@ public class DeviceServiceImpl implements DeviceService {
         if(!rentDocsList.isEmpty()) {
             rentDocsMapper.batchSave(rentDocsList);
         }
-
-
         //4. 写入财务流水
-        //..............................
+        Finance finance = new Finance();
+        finance.setCreateUser(ShiroUtil.getCurrentUserName());
+        finance.setType(Finance.TYPE_IN);
+        finance.setCreateDate(DateTime.now().toString("yyyy-MM-dd"));
+        finance.setModule("设备租赁");
+        finance.setMoney(preCost);
+        finance.setSerialNumber(SerialNumberUtil.getSerialNumber());
+        finance.setState(Finance.STATE_NO);
+        finance.setRemark("预付款");
+        finance.setModuleSerialNumber(rent.getSerialNumber());
+
+        financeMapper.save(finance);
 
         return rent.getSerialNumber();
 
@@ -247,6 +253,18 @@ public class DeviceServiceImpl implements DeviceService {
         deviceRent.setState("已完成");
         rentMapper.updateState(deviceRent);
         //向财务模块添加尾款记录
+        Finance finance = new Finance();
+        finance.setCreateUser(ShiroUtil.getCurrentUserName());
+        finance.setType(Finance.TYPE_IN);
+        finance.setCreateDate(DateTime.now().toString("yyyy-MM-dd"));
+        finance.setModule("设备租赁");
+        finance.setMoney(deviceRent.getLastCost());
+        finance.setSerialNumber(SerialNumberUtil.getSerialNumber());
+        finance.setState(Finance.STATE_NO);
+        finance.setRemark("合同尾款");
+        finance.setModuleSerialNumber(deviceRent.getSerialNumber());
+
+        financeMapper.save(finance);
     }
 
 

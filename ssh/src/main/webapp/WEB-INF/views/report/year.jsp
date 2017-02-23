@@ -27,7 +27,7 @@
 
     <%@include file="../include/header.jsp"%>
     <jsp:include page="../include/aside.jsp">
-        <jsp:param name="menu" value="fin_year"/>
+        <jsp:param name="menu" value="finance_year"/>
     </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->

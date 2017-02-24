@@ -17,7 +17,7 @@
 
     <%@include file="../../include/header.jsp"%>
     <jsp:include page="../../include/aside.jsp">
-        <jsp:param name="menu" value="work_add"/>
+        <jsp:param name="menu" value="business_work_out"/>
     </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
@@ -43,11 +43,11 @@
                             </div>
                             <div class="form-group">
                                 <label>地   址</label>
-                                <input type="text" class="form-control" id="tel" tabindex="4">
+                                <input type="text" class="form-control" id="address" tabindex="4">
                             </div>
                             <div class="form-group">
                                 <label>佣金金额</label>
-                                <input type="text" class="form-control" id="rentDate" readonly>
+                                <input type="text" class="form-control" id="wageNumber" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -57,25 +57,25 @@
                             </div>
                             <div class="form-group">
                                 <label>电   话</label>
-                                <input type="text" class="form-control" id="address" tabindex="5">
+                                <input type="text" class="form-control" id="tel" tabindex="5">
                             </div>
                             <div class="form-group">
                                 <label>预付款</label>
-                                <input type="text" class="form-control" id="backDate" tabindex="7" readonly>
+                                <input type="text" class="form-control" id="preCost" tabindex="7" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>公司电话</label>
-                                <input type="text" class="form-control" id="cardNum" tabindex="3">
+                                <input type="text" class="form-control" id="companyTel" tabindex="3">
                             </div>
                             <div class="form-group">
                                 <label>身份证号</label>
-                                <input type="text" class="form-control" id="fax" tabindex="6">
+                                <input type="text" class="form-control" id="cardNum" tabindex="6">
                             </div>
                             <div class="form-group">
                                 <label>尾   款</label>
-                                <input type="text" class="form-control" id="totalDays" readonly>
+                                <input type="text" class="form-control" id="lastCost" readonly>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                 <div class="modal-body">
                     <form action="">
                         <div class="form-group">
-                            <input type="hidden" id="deviceName">
+                            <input type="hidden" id="workName">
                             <label>工种名称</label>
                             <select id="workId" style="width: 300px;" class="form-control">
                                 <option value="">选择工种</option>
@@ -198,6 +198,8 @@
 <script src="/static/plugins/layer/layer.js"></script>
 <script>
 
+    var fileArray = [];
+
     $(function () {
        $("#workId").select2();
         $("#workId").change(function () {
@@ -217,6 +219,84 @@
                 })
             }
         })
+    });
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            workArray:[]
+        },
+        methods:{
+            addWork:function () {
+                var id = $("#workId").val();
+                //判断数组中是否存在当前工种，如果有则数量累加，更新佣金
+                var flag = false;
+                for(var i = 0;i < this.$data.workArray.length;i++){
+                    var item = this.$data.workArray[i];
+                    if(item.id == id) {
+                        this.$data.workArray[i].num = this.$data.deviceArray[i].num + $("#outNum").val();
+                        this.$data.workArray[i].total = this.$data.deviceArray[i].num * parseFloat($("#wage").val());
+                        flag = true;
+                        break;
+                    }
+                }
+                //如果没有则添加新JSON对象
+                if(!flag){
+                    var json = {};
+                    json.id = id;
+                    json.workName = $("#workName").val();
+                    json.unit = $("#unit").val();
+                    json.wage = $("#wage").val();
+                    json.outNum = $("#outNum").val();
+                    json.total = parseFloat(json.wage) * json.outNum;
+
+                    this.$data.workArray.push(json);
+                }
+            },
+            remove:function(work){
+                layer.confirm("确定要删除吗",function(index){
+                    app.$data.workArray.splice(app.$data.workArray.indexOf(work),1);
+                    layer.close(index);
+                });
+            },
+            saveWork:function(){
+                var json = {
+                    workArray : app.$data.workArray,
+                    fileArray : fileArray,
+                    companyName : $("#companyName").val(),
+                    tel : $("#tel").val(),
+                    linkMan : $("#linkMan").val(),
+                    cardNum : $("#cardNum").val(),
+                    address : $("#address").val(),
+                    wageNumber : $("#wageNumber").val(),
+                    preCost : $("#preCost").val(),
+                    companyTel : $("#companyTel").val(),
+                    lastCost : $("#lastCost").val()
+                };
+
+                $.ajax({
+                    url:"/work/out/new",
+                    type:"post",
+                    data: JSON.stringify(json),//将JSON转换成字符串
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(data){
+                        if(data.status == 'success') {
+                            layer.confirm("保存成功",{btn:['继续添加','打印合同']},function(){
+                                window.history.go(0);
+                            },function(){
+                                window.location.href = "/device/rent/"+data.data;
+                            });
+                        }else{
+                            layer.msg(data.message);
+                        }
+                    },
+                    error:function(){
+                        layer.msg("服务器忙，请稍后");
+                    }
+                });
+
+            }
+        }
     });
 
 </script>

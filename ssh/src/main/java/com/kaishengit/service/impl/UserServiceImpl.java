@@ -5,6 +5,7 @@ import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import com.kaishengit.service.WeixinService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private WeixinService weixinService;
 
     @Override
     public List<User> findAll() {
@@ -80,15 +84,25 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void saveNewUser(User user, Integer[] roleIds) {
         //user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
+        //保存用户
         userMapper.save(user);
         if(roleIds != null){
             for(Integer roleId : roleIds){
                 Role role = roleMapper.findById(roleId);
                 if(role != null){
+                    //保存用户和角色关系
                     roleMapper.saveNewUserRole(user.getId(),roleId);
                 }
             }
         }
+        //保存到微信
+        com.kaishengit.dto.wx.User wxUser = new com.kaishengit.dto.wx.User();
+
+        wxUser.setUserid(user.getId().toString());
+        wxUser.setName(user.getUserName());
+        wxUser.setMobile(user.getMobile());
+        wxUser.setDepartment(Arrays.asList(roleIds));
+        weixinService.saveUser(wxUser);
     }
 
 }

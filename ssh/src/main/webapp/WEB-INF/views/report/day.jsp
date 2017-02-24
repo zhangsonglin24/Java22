@@ -131,6 +131,8 @@
                 "lengthMenu":     "显示 _MENU_ 条数据",
                 "info":           "显示从 _START_ 到 _END_ 条数据 共 _TOTAL_ 条数据",
                 "infoFiltered":   "(从 _MAX_ 条数据中过滤得来)",
+                "infoEmpty":      "",
+                "infoPostFix":    "",
                 "loadingRecords": "加载中...",
                 "processing":     "处理中...",
                 "paginate": {

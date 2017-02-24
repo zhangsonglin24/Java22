@@ -1,14 +1,14 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.dto.AjaxResult;
+import com.kaishengit.dto.WorkOutDto;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.Work;
 import com.kaishengit.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +40,20 @@ public class WorkOutController {
         }else {
             return new AjaxResult(work);
         }
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public AjaxResult saveWork(@RequestBody WorkOutDto workOutDto){
+        try {
+            String serialNumber = workService.saveWork(workOutDto);
+            AjaxResult result = new AjaxResult();
+            result.setData(serialNumber);
+            result.setStatus(AjaxResult.SUCCESS);
+            return result;
+        }catch (ServiceException ex){
+            return new AjaxResult(AjaxResult.ERROR,ex.getMessage());
+        }
+
     }
 }

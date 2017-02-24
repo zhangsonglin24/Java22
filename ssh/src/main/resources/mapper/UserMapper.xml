@@ -5,7 +5,7 @@
 
 <mapper namespace="com.kaishengit.mapper.UserMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_user(user_name,password) VALUES (#{userName},#{password})
+        INSERT INTO t_user(user_name,password,mobile) VALUES (#{userName},#{password},#{mobile})
     </insert>
     <update id="updateUser">
         update t_user

@@ -40,6 +40,10 @@
                             <input type="password" name="password" value="000000" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>手机号(以便与微信企业号绑定)</label>
+                            <input type="text" name="mobile" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label>角色</label>
                             <div>
                                 <c:forEach items="${roleList}" var="role">

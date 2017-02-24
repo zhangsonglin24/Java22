@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kaishengit.mapper.WorkMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_work_out(company_name, link_man, card_num, tel, address, company_tel, wage_number, last_cost, pre_cost,create_user,serial_number)
+        VALUES
+        (#{companyName},#{linkMan},#{cardNum},#{tel},#{address},#{companyTel},#{wageNumber},#{lastCost},#{preCost},#{createUser},#{serialNumber})
+    </insert>
     <select id="findAllWork" resultType="com.kaishengit.pojo.Work">
         select * from t_work
     </select>

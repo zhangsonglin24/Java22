@@ -104,16 +104,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-if="deviceArray.length == 0">
+                        <tr v-if="workArray.length == 0">
                             <td colspan="6">暂无数据</td>
                         </tr>
-                        <tr v-for="device in deviceArray">
-                            <td>{{device.name}}</td>
-                            <td>{{device.unit}}</td>
-                            <td>{{device.price}}</td>
-                            <td>{{device.num}}</td>
-                            <td>{{device.total}}</td>
-                            <td><a href="javascript:;" @click="remove(device)"><i class="fa fa-trash text-danger"></i></a></td>
+                        <tr v-for="work in workArray">
+                            <td>{{work.name}}</td>
+                            <td>{{work.unit}}</td>
+                            <td>{{work.wage}}</td>
+                            <td>{{work.num}}</td>
+                            <td>{{work.total}}</td>
+                            <td><a href="javascript:;" @click="remove(work)"><i class="fa fa-trash text-danger"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -180,7 +180,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" v-on:click="addWork">加入列表</button>
+                    <button type="button" class="btn btn-primary" @click="addWork">加入列表</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -234,8 +234,8 @@
                 for(var i = 0;i < this.$data.workArray.length;i++){
                     var item = this.$data.workArray[i];
                     if(item.id == id) {
-                        this.$data.workArray[i].num = this.$data.deviceArray[i].num + $("#outNum").val();
-                        this.$data.workArray[i].total = this.$data.deviceArray[i].num * parseFloat($("#wage").val());
+                        this.$data.workArray[i].num = this.$data.workArray[i].num + $("#outNum").val();
+                        this.$data.workArray[i].total = this.$data.workArrayk[i].num * parseFloat($("#wage").val());
                         flag = true;
                         break;
                     }

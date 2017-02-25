@@ -98,7 +98,7 @@
                 "url":"/report/day/load",
                 "type":"get",
                 "data":function(obj){
-                    obj.day = $("#date").val()
+                    obj.day = $("#date").val();
                 }
             },
             "searching":false,//不使用自带的搜索

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.WorkOutDetailMapper">
+    <insert id="batchSave">
+        insert into t_work_out_detail(work_name, work_unit, work_wage, num, total_price, work_id)
+        VALUES
+        <foreach collection="list" item="obj" separator=",">
+            (#{obj.workName},#{obj.workUnit},#{obj.workWage},#{obj.num},#{obj.totalPrice},#{obj.workId})
+        </foreach>
+    </insert>
+</mapper>

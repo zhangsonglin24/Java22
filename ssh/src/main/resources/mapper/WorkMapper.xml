@@ -6,6 +6,10 @@
         VALUES
         (#{companyName},#{linkMan},#{cardNum},#{tel},#{address},#{companyTel},#{wageNumber},#{lastCost},#{preCost},#{createUser},#{serialNumber})
     </insert>
+
+    <update id="updateCurrentNum">
+         UPDATE t_work SET current_num = #{currentNum} where id = #{id}
+    </update>
     <select id="findAllWork" resultType="com.kaishengit.pojo.Work">
         select * from t_work
     </select>

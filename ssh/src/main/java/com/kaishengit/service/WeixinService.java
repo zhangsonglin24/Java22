@@ -79,7 +79,7 @@ public class WeixinService {
 
             Map<String,Object> result = new Gson().fromJson(resultJson,HashMap.class);
             Object errorCode = result.get("errcode");
-            if("0.0".equals(errorCode.toString())) {
+            if("0".equals(errorCode.toString())) {
                 logger.error("微信创建用户异常:{}",resultJson);
                 throw new ServiceException("微信创建用户异常:"+resultJson);
             }

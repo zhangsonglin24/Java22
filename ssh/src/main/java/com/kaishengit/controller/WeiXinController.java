@@ -26,5 +26,11 @@ public class WeiXinController {
     public String init(String msg_signature,String timestamp,String nonce,String echostr){
         logger.info("{},,,{},,,{},,,{}",msg_signature,timestamp,nonce,echostr);
         return weixinService.init(msg_signature,timestamp,nonce,echostr);
-}
+    }
+    @GetMapping("/meeting")
+    public String meeting(){
+        logger.info("有人进入。。。。。。。");
+        return "wx/meeting";
+    }
+
 }

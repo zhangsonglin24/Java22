@@ -172,4 +172,27 @@ public class WeixinService {
         }
     }
 
+    /**
+     * OAuth 通过code获取USerId
+     * @param code
+     * @return
+     */
+    public String codeToUserId(String code) {
+        String url = MessageFormat.format(CODE_TO_USERID_URL,getAccessToken(),code);
+        Request request = new Request.Builder().url(url).build();
+        try {
+            Response response = new OkHttpClient().newCall(request).execute();
+            String resultJson = response.body().string();
+            Map<String,String> result = new Gson().fromJson(resultJson,HashMap.class);
+            if(result.containsKey("UserId")) {
+                return result.get("UserId");
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new ServiceException("通过Code获取UserID异常",e);
+        }
+    }
+
+
 }

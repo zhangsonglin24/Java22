@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,9 +29,17 @@ public class WeiXinController {
         return weixinService.init(msg_signature,timestamp,nonce,echostr);
     }
     @GetMapping("/meeting")
-    public String meeting(){
-        logger.info("有人进入。。。。。。。");
-        return "wx/meeting";
+    public String meeting(String code,@RequestHeader("User-Agent") String userAgent){
+        logger.info("userAgent:{}",userAgent);
+
+        String userId = weixinService.codeToUserId(code);
+        if(userId == null){
+            logger.error("未知用户访问，，，，，");
+            return "wx/403";
+        }else {
+            logger.info("{}访问。。。。。",userId);
+            return "wx/meeting";
+        }
     }
 
 }

@@ -18,7 +18,6 @@ public class HelloServlet extends HttpServlet {
         UserService userService = new UserService();
         User user = new User();
         user.setId(1);
-        user.setUserName("小明");
         userService.save(user);
         resp.sendRedirect("hello.jsp");
     }

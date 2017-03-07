@@ -11,7 +11,7 @@
         <artifactId>ssm-parent</artifactId>
         <groupId>com.kaishengit</groupId>
         <version>1.0</version>
-        <relativePath>../ssm-parent/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

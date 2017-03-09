@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello,Wechar</h1>
+    <h1>Hello,Wechatty`</h1>
     <a href="/wx/abc">Abc</a>
 </body>
 </html>

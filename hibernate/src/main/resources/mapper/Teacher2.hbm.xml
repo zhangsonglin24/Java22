@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kaishengit.pojo">
+    <class name="Teacher2" table="t_teacher2">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="teaname"/>
+        <set name="student2Set" table="t_stu_tea">
+            <!--colum:配置当前表在关系表中的外键名称-->
+            <key column="teaid"/>
+            <!--colum:配置Student2表在关系表中的外键名称-->
+            <many-to-many class="Student2" column="stuid"/>
+        </set>
+    </class>
+</hibernate-mapping>

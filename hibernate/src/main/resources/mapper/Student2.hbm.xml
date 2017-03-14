@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kaishengit.pojo">
+    <class name="Student2" table="t_student2">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="stuname"/>
+        <set name="teacher2Set" table="t_stu_tea">
+            <key column="stuid"/>
+            <many-to-many class="Teacher2" column="teaid" order-by="id desc"/>
+        </set>
+    </class>
+</hibernate-mapping>
